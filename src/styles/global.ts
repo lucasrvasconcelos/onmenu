@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import '@radix-ui/themes/styles.css'
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -12,10 +13,5 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         background-color: ${(props) => props.theme.colors.background};
-
-        &:hover {
-            background-color: ${(props) => props.theme.colors.secondary};
-            transition: all .3s hover;
-        }
     }
 `

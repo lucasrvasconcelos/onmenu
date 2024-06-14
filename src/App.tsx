@@ -1,5 +1,5 @@
-import { RouterProvider } from 'react-router-dom'
-import { router } from './routes-app'
+import { BrowserRouter } from 'react-router-dom'
+import { Router } from './routes-app'
 import { ThemeProvider } from 'styled-components'
 import { DefaultTheme } from './styles/theme/default'
 import { GlobalStyle } from './styles/global'
@@ -7,7 +7,9 @@ import { GlobalStyle } from './styles/global'
 export function App() {
   return (
     <ThemeProvider theme={DefaultTheme}>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
       <GlobalStyle />
     </ThemeProvider>
   )
