@@ -1,10 +1,15 @@
-import { ButtonDefault } from './button.styled'
+import { ButtonDefault, VariantsType } from './button.styled'
 
 interface ButtonProps {
   children: React.ReactNode
-  onClick?: () => void
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  variant?: VariantsType
 }
 
-export function Button({ children, onClick }: ButtonProps) {
-  return <ButtonDefault onClick={onClick}>{children}</ButtonDefault>
+export function Button({ children, onClick, variant }: ButtonProps) {
+  return (
+    <ButtonDefault onClick={onClick} variant={variant}>
+      {children}
+    </ButtonDefault>
+  )
 }
