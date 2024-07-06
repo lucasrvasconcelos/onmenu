@@ -14,6 +14,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import img from '../../../../assets/sanduwich.png'
 import { formatCurrency } from '../../../../utils/currency'
 import { Autoplay } from 'swiper/modules'
+import { redirect, useLocation, useNavigate } from 'react-router-dom'
 
 const ApiPopular = [
   {
@@ -72,7 +73,19 @@ const ApiPopular = [
     img,
   },
 ]
+
+interface addItemProps {
+  id: number
+}
+
 export function Popular() {
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  function addItem({ id }: addItemProps) {
+    navigate(pathname + `/item/${id}`)
+  }
+
   return (
     ApiPopular && (
       <PopularContainer>
@@ -83,7 +96,10 @@ export function Popular() {
         <PopularItemGroup>
           {ApiPopular.map((item) => {
             return (
-              <PopularItem key={item.id}>
+              <PopularItem
+                key={item.id}
+                onClick={() => addItem({ id: item.id })}
+              >
                 <ImageBackground>
                   <img src={item.img} alt="" />
                 </ImageBackground>
