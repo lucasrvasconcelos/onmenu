@@ -1,3 +1,11 @@
+import { Groups } from './components/Groups/groups'
+import { Popular } from './components/Popular/popular'
+
 export function AppDelivery() {
-  return <h1>onmenu</h1>
+  return (
+    <div>
+      <Groups />
+      <Popular />
+    </div>
+  )
 }

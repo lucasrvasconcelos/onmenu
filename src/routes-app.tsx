@@ -14,6 +14,8 @@ export function Router() {
 
       <Route path="/app" element={<AppLayout />}>
         <Route path="/app/:company" element={<AppDelivery />} />
+        <Route path="/app/:company/popular" element={<AppDelivery />} />
+        <Route path="/app/:company/item/:idproduct" element={<AppDelivery />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router-dom'
-import { HeaderApp } from '../app/components/header-app/header-app'
+import { Header } from '../app/components/Header/header'
+import { AppProvider } from '../../context/app.context'
 
 export function AppLayout() {
   return (
-    <div>
-      <HeaderApp />
+    <AppProvider>
+      <Header />
       <Outlet />
-    </div>
+    </AppProvider>
   )
 }
