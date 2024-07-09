@@ -14,7 +14,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import img from '../../../../assets/sanduwich.png'
 import { formatCurrency } from '../../../../utils/currency'
 import { Autoplay } from 'swiper/modules'
-import { redirect, useLocation, useNavigate } from 'react-router-dom'
+import {  useLocation, useNavigate } from 'react-router-dom'
 
 const ApiPopular = [
   {
