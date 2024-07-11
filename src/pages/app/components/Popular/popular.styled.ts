@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 export const PopularContainer = styled.div`
@@ -32,11 +33,11 @@ export const PopularItemGroup = styled.div`
   margin-bottom: 35px;
 `
 
-export const PopularItem = styled.div`
+export const PopularItem = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 320px;
+  width: 320px;
   flex-direction: column;
   padding: 8px;
   margin-top: 45px;
@@ -44,10 +45,6 @@ export const PopularItem = styled.div`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   cursor: pointer;
-
-  &:hover img {
-    transform: translateY(-5px);
-  }
 `
 
 export const ImageBackground = styled.div`
@@ -62,8 +59,12 @@ export const ImageBackground = styled.div`
 
   & img {
     margin-top: -50px;
-    max-width: 320px;
+    width: 320px;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 2.275);
+
+    &:hover {
+      transform: translateY(-5px);
+    }
   }
 `
 
@@ -104,10 +105,9 @@ export const Ingredients = styled.div`
   color: ${(props) => props.theme.colors.textSecondary};
   text-transform: capitalize;
   margin-top: 12px;
-  width: 100%;
 `
 
-export const IngredientsName = styled.div`
+export const IngredientsName = styled.p`
   font-size: 10px;
   /* margin-left: 3px; */
   padding: 0px 4px;

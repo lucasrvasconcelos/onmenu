@@ -1,18 +1,23 @@
-import { CategoryContainer, CategoryImage, CategoryItem } from './groups.styled'
+import {
+  CategoryContainer,
+  CategoryImage,
+  CategoryItem,
+  CleanFilters,
+} from './groups.styled'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, X } from 'lucide-react'
 import { UseAppContext } from '../../../../context/use.app.context'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Group as GroupsType } from '../../../../context/styled'
 import { NoData } from '../../../../components/noData'
-import img from '../../../../assets/sanduwich.png'
 
 const ApiGroups: GroupsType[] = [
   {
     groupId: 1,
     groupName: 'Burguer',
-    groupImage: img,
+    groupImage:
+      'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
     groupSearchDescription: 'Search our delicious burgers',
   },
   {
@@ -60,30 +65,33 @@ const ApiGroups: GroupsType[] = [
   },
 ]
 
-interface handleActiveGroup {
-  id: number
+interface handleActiveGroupProps {
+  id?: number
 }
 
 export function Groups() {
-  const { groups, handleGroup, handleSeachbarDescription } = UseAppContext()
-  const [activeGroup, setActiveGroup] = useState<number>()
+  const { activeGroup, handleSeachbarDescription, handleActiveGroup } =
+    UseAppContext()
 
-  useEffect(() => {
-    handleGroup(ApiGroups)
-  }, [handleGroup])
+  const [groups] = useState(ApiGroups)
 
-  function handleActiveGroup({ id }: handleActiveGroup) {
-    setActiveGroup(id)
-
+  function handleActiveGroupUser({ id }: handleActiveGroupProps) {
     const groupActive = groups?.find((group) => {
       return group.groupId === id
     })
 
+    handleActiveGroup(groupActive?.groupId)
     handleSeachbarDescription(groupActive?.groupSearchDescription)
   }
 
   return (
     <CategoryContainer>
+      {activeGroup && (
+        <CleanFilters onClick={() => handleActiveGroupUser({})}>
+          Limpar filtros <X size={14} />
+        </CleanFilters>
+      )}
+
       <Swiper
         slidesPerView={3}
         spaceBetween={8}
@@ -104,7 +112,7 @@ export function Groups() {
           return (
             <SwiperSlide
               key={group.groupId}
-              onClick={() => handleActiveGroup({ id: group.groupId })}
+              onClick={() => handleActiveGroupUser({ id: group.groupId })}
             >
               <CategoryItem
                 className={activeGroup === group.groupId ? 'active' : ''}

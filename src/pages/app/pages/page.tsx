@@ -1,11 +1,14 @@
-import { ArrowLeft, Star } from 'lucide-react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { ArrowLeft, Heart } from 'lucide-react'
+import {
+  useNavigate,
+  // useParams
+} from 'react-router-dom'
+
 import {
   DetailsItem,
   ItemDetailsContainer,
   MenuOptionsItem,
 } from './page.styled'
-import img from '../../../assets/sanduwich.png'
 
 const ApiproductDetail = {
   id: 1,
@@ -25,18 +28,22 @@ const ApiproductDetail = {
     'hamburguer',
   ],
   price: 480.9,
-  img,
+  img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
 }
 
 export function Item() {
   const navigate = useNavigate()
-  const { proid } = useParams<{ proid: string }>()
+  // const { proid } = useParams<{ proid: string }>()
 
   return (
     <ItemDetailsContainer>
       <MenuOptionsItem>
-        <ArrowLeft onClick={() => navigate(-1)} size={35} />
-        <Star size={35} strokeWidth={3} />
+        <button onClick={() => navigate(-1)}>
+          <ArrowLeft size={35} />
+        </button>
+        <button>
+          <Heart size={35} strokeWidth={2} />
+        </button>
       </MenuOptionsItem>
       <DetailsItem>
         <h1>{ApiproductDetail.name}</h1>
@@ -45,7 +52,9 @@ export function Item() {
             return <li key={index + item}>{item}</li>
           })}
         </ul>
-        <img src={ApiproductDetail.img} alt="" />
+        <div>
+          <img src={ApiproductDetail.img} alt="" />
+        </div>
       </DetailsItem>
     </ItemDetailsContainer>
   )

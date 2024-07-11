@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import { DefaultLayout } from './pages/@layouts/dafault-layout'
 import { AppLayout } from './pages/@layouts/app-layout'
 import { AppDelivery } from './pages/app/page'
-import { Item } from './pages/app/pages/page.styled'
+import { Item } from './pages/app/pages/page'
 
 export function Router() {
   return (
@@ -19,7 +19,7 @@ export function Router() {
       </Route>
 
       <Route path="/app">
-        <Route path="/app/:company/item/:proid" element={<Item />} />
+        <Route path="/app/:company/item/" element={<Item />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

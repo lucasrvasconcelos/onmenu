@@ -22,12 +22,14 @@ const ApiProfile: Profile = {
 interface AppContextInterface {
   company?: string
   groups?: Group[]
+  activeGroup?: number
   profile: Profile
   seachbarDescription?: string
 
   handleGroup: (groups: Group[]) => void
   handleProfile: (profile: Profile) => void
   handleSeachbarDescription: (seachbarDescription?: string) => void
+  handleActiveGroup: (groupid?: number) => void
 }
 
 export const AppContext = createContext({} as AppContextInterface)
@@ -40,6 +42,7 @@ export function AppProvider({ children }: AppProviderProps) {
   const { company } = useParams()
 
   const [groups, setGroups] = useState<Group[]>()
+  const [activeGroup, setActiveGroup] = useState<number | undefined>(undefined)
   const [profile, setProfile] = useState<Profile>(ApiProfile)
   const [seachbarDescription, setSeachbarDescription] = useState<
     string | undefined
@@ -54,7 +57,15 @@ export function AppProvider({ children }: AppProviderProps) {
   }
 
   function handleSeachbarDescription(seachbarDescription?: string) {
+    console.log(seachbarDescription)
+    if (seachbarDescription) {
+      setSeachbarDescription(profile.seachbardescription)
+    }
     setSeachbarDescription(seachbarDescription)
+  }
+
+  function handleActiveGroup(groupid?: number) {
+    setActiveGroup(groupid)
   }
 
   return (
@@ -64,9 +75,11 @@ export function AppProvider({ children }: AppProviderProps) {
         groups,
         profile,
         seachbarDescription,
+        activeGroup,
         handleGroup,
         handleProfile,
         handleSeachbarDescription,
+        handleActiveGroup,
       }}
     >
       {children}

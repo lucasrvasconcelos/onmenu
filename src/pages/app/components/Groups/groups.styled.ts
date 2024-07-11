@@ -4,9 +4,44 @@ export const CategoryContainer = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 20px;
-  padding-top: 160px;
+  margin-top: 160px;
   gap: 8px;
-  max-width: 100%;
+  width: 100%;
+  position: relative;
+`
+
+export const CleanFilters = styled.button`
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: ${(props) => props.theme.colors.white};
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 0.5px solid ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.primary};
+  border-radius: 4px;
+  padding: 2px 12px;
+  padding-right: 8px;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &:hover {
+    color: ${(props) => props.theme.colors.danger};
+    border: 0.5px solid ${(props) => props.theme.colors.danger};
+  }
+
+  & svg {
+    color: ${(props) => props.theme.colors.primary};
+  }
+
+  &:hover svg {
+    color: ${(props) => props.theme.colors.danger};
+  }
 `
 
 export const CategoryItem = styled.div`

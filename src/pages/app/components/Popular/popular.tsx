@@ -10,11 +10,10 @@ import {
 } from './popular.styled'
 import { LinkApp } from '../../../../components/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
-import img from '../../../../assets/sanduwich.png'
 import { formatCurrency } from '../../../../utils/currency'
 import { Autoplay } from 'swiper/modules'
-import {  useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { UseAppContext } from '../../../../context/use.app.context'
 
 const ApiPopular = [
   {
@@ -35,55 +34,117 @@ const ApiPopular = [
       'hamburguer',
     ],
     price: 480.9,
-    img,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 1,
   },
   {
     id: 2,
     name: 'Hot dog',
     ingredients: ['Pão', 'Salsicha', 'Queijo'],
     price: 24.87,
-    img,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 2,
   },
   {
     id: 3,
     name: 'Hot dog',
     ingredients: ['Pão', 'Salsicha', 'Queijo'],
     price: 24.87,
-    img,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 2,
   },
   {
     id: 4,
     name: 'Hot dog',
     ingredients: ['Pão', 'Salsicha', 'Queijo'],
     price: 24.87,
-    img,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 4,
   },
   {
     id: 5,
     name: 'Hot dog',
     ingredients: ['Pão', 'Salsicha', 'Queijo'],
     price: 24.87,
-    img,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 1,
   },
   {
-    id: 6,
+    id: 7,
     name: 'Hot dog',
     ingredients: ['Pão', 'Salsicha', 'Queijo'],
     price: 24.87,
-    img,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 8,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 9,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 10,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 11,
+  },
+  {
+    id: 12,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 13,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 14,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 15,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
   },
 ]
 
-interface addItemProps {
-  id: number
-}
-
 export function Popular() {
-  const { pathname } = useLocation()
-  const navigate = useNavigate()
+  const { activeGroup } = UseAppContext()
 
-  function addItem({ id }: addItemProps) {
-    navigate(pathname + `/item/${id}`)
+  const [product] = useState(ApiPopular)
+  let productFiltered = []
+
+  if (!activeGroup) {
+    productFiltered = product
+  } else {
+    productFiltered = product.filter((item) => item.group === activeGroup)
   }
 
   return (
@@ -91,21 +152,20 @@ export function Popular() {
       <PopularContainer>
         <GroupPopular>
           <h3>Popular</h3>
+
           <LinkApp to={`/popular`}>Ver todos</LinkApp>
         </GroupPopular>
         <PopularItemGroup>
-          {ApiPopular.map((item) => {
+          {productFiltered.map((item) => {
             return (
-              <PopularItem
-                key={item.id}
-                onClick={() => addItem({ id: item.id })}
-              >
+              <PopularItem key={item.id} to={`item/?proid=${item.id}`}>
                 <ImageBackground>
                   <img src={item.img} alt="" />
                 </ImageBackground>
                 <NameItemGroup>
                   <div>
                     <h4>{item.name}</h4>
+
                     <Ingredients>
                       <Swiper
                         spaceBetween={5}
