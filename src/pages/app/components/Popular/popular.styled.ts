@@ -59,7 +59,7 @@ export const ImageBackground = styled.div`
 
   & img {
     margin-top: -50px;
-    width: 320px;
+    max-width: 320px;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 2.275);
 
     &:hover {
@@ -82,7 +82,6 @@ export const NameItemGroup = styled.div`
     flex-direction: column;
 
     width: 100%;
-    padding: 0px 4px;
   }
 
   & > span {
@@ -105,12 +104,15 @@ export const Ingredients = styled.div`
   color: ${(props) => props.theme.colors.textSecondary};
   text-transform: capitalize;
   margin-top: 12px;
+
+  & div {
+    padding: 0px 2px;
+  }
 `
 
-export const IngredientsName = styled.p`
+export const IngredientsName = styled.span`
   font-size: 10px;
   /* margin-left: 3px; */
-  padding: 0px 4px;
   background-color: ${(props) => props.theme.colors.placeholder};
   border: 0.5px solid ${(props) => props.theme.colors.textSecondary};
   border-radius: 4px;
@@ -118,4 +120,7 @@ export const IngredientsName = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

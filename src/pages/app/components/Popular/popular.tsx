@@ -168,7 +168,7 @@ export function Popular() {
 
                     <Ingredients>
                       <Swiper
-                        spaceBetween={5}
+                        spaceBetween={2}
                         slidesPerView={3}
                         autoplay={{
                           delay: 2500,

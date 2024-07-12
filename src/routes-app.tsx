@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import { DefaultLayout } from './pages/@layouts/dafault-layout'
 import { AppLayout } from './pages/@layouts/app-layout'
 import { AppDelivery } from './pages/app/page'
-import { Item } from './pages/app/pages/page'
+import { Item } from './pages/app/pages/Item/page'
 
 export function Router() {
   return (
