@@ -1,16 +1,16 @@
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { UseAppContext } from '../../../../context/use.app.context'
 import {
   CategoryContainer,
   CategoryImage,
   CategoryItem,
   CleanFilters,
 } from './groups.styled'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
 import { ArrowRight, X } from 'lucide-react'
-import { UseAppContext } from '../../../../context/use.app.context'
-import { useState } from 'react'
-import { Group as GroupsType } from '../../../../context/styled'
 import { NoData } from '../../../../components/noData'
+import { Group as GroupsType } from '../../../../context/styled'
 
 const ApiGroups: GroupsType[] = [
   {
@@ -65,29 +65,42 @@ const ApiGroups: GroupsType[] = [
   },
 ]
 
-interface handleActiveGroupProps {
-  id?: number
-}
-
 export function Groups() {
-  const { activeGroup, handleSeachbarDescription, handleActiveGroup } =
-    UseAppContext()
-
+  const { handleSeachbarDescription, handleActiveGroup } = UseAppContext()
   const [groups] = useState(ApiGroups)
 
-  function handleActiveGroupUser({ id }: handleActiveGroupProps) {
-    const groupActive = groups?.find((group) => {
-      return group.groupId === id
-    })
+  const [searchParams, setSearchParams] = useSearchParams()
+  const groupParam = searchParams.get('group')
+  const activeGroup = groupParam
+    ? groups.find((g) => g.groupName === groupParam)
+    : null
 
-    handleActiveGroup(groupActive?.groupId)
-    handleSeachbarDescription(groupActive?.groupSearchDescription)
+  useEffect(() => {
+    if (activeGroup) {
+      handleActiveGroup(activeGroup.groupId)
+      handleSeachbarDescription(activeGroup.groupSearchDescription)
+    }
+  }, [activeGroup, handleActiveGroup, handleSeachbarDescription])
+
+  function handleGroupSelection(group?: GroupsType) {
+    if (!group) {
+      searchParams.delete('group')
+      setSearchParams(searchParams)
+      handleSeachbarDescription()
+      handleActiveGroup()
+      return
+    }
+
+    searchParams.set('group', group.groupName)
+    setSearchParams(searchParams)
+    handleActiveGroup(group.groupId)
+    handleSeachbarDescription(group.groupSearchDescription)
   }
 
   return (
     <CategoryContainer>
       {activeGroup && (
-        <CleanFilters onClick={() => handleActiveGroupUser({})}>
+        <CleanFilters onClick={() => handleGroupSelection()}>
           Limpar filtros <X size={14} />
         </CleanFilters>
       )}
@@ -108,24 +121,24 @@ export function Groups() {
           },
         }}
       >
-        {groups?.map((group) => {
-          return (
-            <SwiperSlide
-              key={group.groupId}
-              onClick={() => handleActiveGroupUser({ id: group.groupId })}
+        {groups?.map((group) => (
+          <SwiperSlide
+            key={group.groupId}
+            onClick={() => handleGroupSelection(group)}
+          >
+            <CategoryItem
+              className={
+                activeGroup?.groupName === group.groupName ? 'active' : ''
+              }
             >
-              <CategoryItem
-                className={activeGroup === group.groupId ? 'active' : ''}
-              >
-                <CategoryImage>
-                  <img src={group.groupImage} alt="" />
-                </CategoryImage>
-                <span>{group.groupName}</span>
-                <ArrowRight size={25} />
-              </CategoryItem>
-            </SwiperSlide>
-          )
-        })}
+              <CategoryImage>
+                <img src={group.groupImage} alt={group.groupName} />
+              </CategoryImage>
+              <span>{group.groupName}</span>
+              <ArrowRight size={25} />
+            </CategoryItem>
+          </SwiperSlide>
+        ))}
       </Swiper>
 
       {!groups && <NoData>Sem informações a serem mostradas</NoData>}

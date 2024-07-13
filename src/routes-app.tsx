@@ -1,5 +1,4 @@
 import { PageIndex } from './pages/index/page'
-import { NotFound } from './404'
 import { Route, Routes } from 'react-router-dom'
 import { DefaultLayout } from './pages/@layouts/dafault-layout'
 import { AppLayout } from './pages/@layouts/app-layout'
@@ -19,10 +18,8 @@ export function Router() {
       </Route>
 
       <Route path="/app">
-        <Route path="/app/:company/item/" element={<Item />} />
+        <Route path="/app/:company/:proid/" element={<Item />} />
       </Route>
-
-      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

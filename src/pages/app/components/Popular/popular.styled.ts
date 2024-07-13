@@ -3,7 +3,6 @@ import { styled } from 'styled-components'
 
 export const PopularContainer = styled.div`
   margin: 8px;
-  transition: none;
 
   & a {
     color: ${(props) => props.theme.colors.black};

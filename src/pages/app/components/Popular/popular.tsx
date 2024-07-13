@@ -8,12 +8,12 @@ import {
   PopularItem,
   PopularItemGroup,
 } from './popular.styled'
-import { LinkApp } from '../../../../components/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { formatCurrency } from '../../../../utils/currency'
 import { Autoplay } from 'swiper/modules'
 import { useState } from 'react'
 import { UseAppContext } from '../../../../context/use.app.context'
+import { Link } from 'react-router-dom'
 
 const ApiPopular = [
   {
@@ -137,28 +137,22 @@ const ApiPopular = [
 
 export function Popular() {
   const { activeGroup } = UseAppContext()
+  const [products] = useState(ApiPopular)
 
-  const [product] = useState(ApiPopular)
-  let productFiltered = []
-
-  if (!activeGroup) {
-    productFiltered = product
-  } else {
-    productFiltered = product.filter((item) => item.group === activeGroup)
-  }
+  const productFiltered = products.filter((item) => item.group === activeGroup) || products
 
   return (
-    ApiPopular && (
+    productFiltered && (
       <PopularContainer>
         <GroupPopular>
           <h3>Popular</h3>
 
-          <LinkApp to={`/popular`}>Ver todos</LinkApp>
+          <Link to={`/popular`}>Ver todos</Link>
         </GroupPopular>
         <PopularItemGroup>
           {productFiltered.map((item) => {
             return (
-              <PopularItem key={item.id} to={`item/?proid=${item.id}`}>
+              <PopularItem key={item.id} to={`${item.id}`}>
                 <ImageBackground>
                   <img src={item.img} alt="" />
                 </ImageBackground>
