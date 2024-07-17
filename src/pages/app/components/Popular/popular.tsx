@@ -1,16 +1,12 @@
 import {
   GroupPopular,
   ImageBackground,
-  Ingredients,
-  IngredientsName,
   NameItemGroup,
   PopularContainer,
   PopularItem,
   PopularItemGroup,
 } from './popular.styled'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { formatCurrency } from '../../../../utils/currency'
-import { Autoplay } from 'swiper/modules'
 import { useState } from 'react'
 import { UseAppContext } from '../../../../context/use.app.context'
 import { Link } from 'react-router-dom'
@@ -139,7 +135,13 @@ export function Popular() {
   const { activeGroup } = UseAppContext()
   const [products] = useState(ApiPopular)
 
-  const productFiltered = products.filter((item) => item.group === activeGroup) || products
+  let productFiltered = products.filter(
+    (item) => item.group === activeGroup?.groupId,
+  )
+
+  if (!activeGroup) {
+    productFiltered = products
+  }
 
   return (
     productFiltered && (
@@ -159,27 +161,6 @@ export function Popular() {
                 <NameItemGroup>
                   <div>
                     <h4>{item.name}</h4>
-
-                    <Ingredients>
-                      <Swiper
-                        spaceBetween={2}
-                        slidesPerView={3}
-                        autoplay={{
-                          delay: 2500,
-                        }}
-                        loop={false}
-                        modules={[Autoplay]}
-                      >
-                        {item.ingredients.length >= 3 &&
-                          item.ingredients.map((item, index) => {
-                            return (
-                              <SwiperSlide key={item + index}>
-                                <IngredientsName>{item}</IngredientsName>
-                              </SwiperSlide>
-                            )
-                          })}
-                      </Swiper>
-                    </Ingredients>
                   </div>
                   <span>{formatCurrency(item.price)}</span>
                 </NameItemGroup>

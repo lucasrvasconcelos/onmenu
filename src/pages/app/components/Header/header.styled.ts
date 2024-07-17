@@ -11,7 +11,7 @@ export const HeaderContainer = styled.header`
   border-radius: 0 0 15px 15px;
 
   z-index: 100;
-  background-color: ${(props) => props.theme.colors.white};
+  background-color: ${(props) => props.theme.colors.background};
 `
 
 export const HeaderWrapper = styled.div`
@@ -22,6 +22,7 @@ export const HeaderWrapper = styled.div`
 
   & > button {
     gap: 8px;
+    background-color: ${(props) => props.theme.colors.background};
   }
 `
 export const Location = styled.div`
@@ -30,14 +31,14 @@ export const Location = styled.div`
   justify-content: center;
   width: fit-content;
   gap: 4px;
-  background-color: ${(props) => props.theme.colors.white};
+  background-color: ${(props) => props.theme.colors.background};
   padding: 0px 4px;
   padding-right: 8px;
   border-radius: 4px;
 
   & > span {
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 700;
     text-transform: capitalize;
     color: ${(props) => props.theme.colors.black};
   }

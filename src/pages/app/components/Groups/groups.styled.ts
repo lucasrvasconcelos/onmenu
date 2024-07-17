@@ -52,7 +52,7 @@ export const CategoryItem = styled.div`
   width: 100%;
   border: none;
   gap: 20px;
-  padding: 8px 4px;
+  padding: 18px 4px;
   margin: 8px 2px;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 20px;
@@ -60,7 +60,6 @@ export const CategoryItem = styled.div`
   cursor: pointer;
   transition: all 0.1s linear;
   white-space: nowrap;
-  padding-bottom: 18px;
   user-select: none;
 
   &:hover {
@@ -88,11 +87,10 @@ export const CategoryItem = styled.div`
   }
 
   &.active > div {
-    background-color: ${(props) => props.theme.colors.textHighlight};
+    background-color: ${(props) => props.theme.colors.white};
   }
 
   &.active > div img {
-    background-color: ${(props) => props.theme.colors.primary};
   }
 
   &.active svg {
@@ -102,14 +100,11 @@ export const CategoryItem = styled.div`
 `
 
 export const CategoryImage = styled.div`
-  width: 80px;
-  height: 80px;
-  background-color: ${(props) =>
-    props.theme.colors.placeholder}; // Placeholder for category image
-  border-radius: 35%;
-  margin-bottom: 10px;
+  width: 70px;
+  height: 70px;
+
+  border-radius: 15%;
   overflow: hidden;
-  padding: 2px;
   transition: all 0.1s linear;
 
   & img {

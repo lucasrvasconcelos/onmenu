@@ -97,29 +97,29 @@ export const NameItemGroup = styled.div`
     right: 2px;
   }
 `
-export const Ingredients = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: ${(props) => props.theme.colors.textSecondary};
-  text-transform: capitalize;
-  margin-top: 12px;
+// export const Ingredients = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   color: ${(props) => props.theme.colors.textSecondary};
+//   text-transform: capitalize;
+//   margin-top: 12px;
 
-  & div {
-    padding: 0px 2px;
-  }
-`
+//   & div {
+//     padding: 0px 2px;
+//   }
+// `
 
-export const IngredientsName = styled.span`
-  font-size: 10px;
-  /* margin-left: 3px; */
-  background-color: ${(props) => props.theme.colors.placeholder};
-  border: 0.5px solid ${(props) => props.theme.colors.textSecondary};
-  border-radius: 4px;
-  user-select: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+// export const IngredientsName = styled.span`
+//   font-size: 10px;
+//   /* margin-left: 3px; */
+//   background-color: ${(props) => props.theme.colors.placeholder};
+//   border: 0.5px solid ${(props) => props.theme.colors.textSecondary};
+//   border-radius: 4px;
+//   user-select: none;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   text-align: center;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `

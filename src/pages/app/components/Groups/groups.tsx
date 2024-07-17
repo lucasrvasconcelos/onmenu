@@ -52,14 +52,14 @@ const ApiGroups: GroupsType[] = [
   },
   {
     groupId: 7,
-    groupName: 'Hot dog',
+    groupName: 'Hot dog2',
     groupImage: 'https://picsum.photos/200/300?random=3',
     groupSearchDescription: 'Search our delicious Hot Dog',
   },
 
   {
     groupId: 8,
-    groupName: 'Hot dog',
+    groupName: 'Hot dog3',
     groupImage: 'https://picsum.photos/200/300?random=3',
     groupSearchDescription: 'Search our delicious Hot Dog',
   },
@@ -77,7 +77,7 @@ export function Groups() {
 
   useEffect(() => {
     if (activeGroup) {
-      handleActiveGroup(activeGroup.groupId)
+      handleActiveGroup(activeGroup)
       handleSeachbarDescription(activeGroup.groupSearchDescription)
     }
   }, [activeGroup, handleActiveGroup, handleSeachbarDescription])
@@ -93,7 +93,7 @@ export function Groups() {
 
     searchParams.set('group', group.groupName)
     setSearchParams(searchParams)
-    handleActiveGroup(group.groupId)
+    handleActiveGroup(group)
     handleSeachbarDescription(group.groupSearchDescription)
   }
 
@@ -107,7 +107,7 @@ export function Groups() {
 
       <Swiper
         slidesPerView={3}
-        spaceBetween={8}
+        spaceBetween={24}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
         breakpoints={{
@@ -127,9 +127,7 @@ export function Groups() {
             onClick={() => handleGroupSelection(group)}
           >
             <CategoryItem
-              className={
-                activeGroup?.groupName === group.groupName ? 'active' : ''
-              }
+              className={activeGroup?.groupId === group.groupId ? 'active' : ''}
             >
               <CategoryImage>
                 <img src={group.groupImage} alt={group.groupName} />
