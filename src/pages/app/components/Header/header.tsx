@@ -10,12 +10,18 @@ import { Profile } from './profile'
 import { SearchBar } from './searchBar'
 import { useQuery } from '@tanstack/react-query'
 import { getCompany } from '../../../../api/get-company'
+import { useParams } from 'react-router-dom'
 
 export function Header() {
+
+  const params = useParams()
+
   const { data: company, isFetching } = useQuery({
     queryKey: ['profile-company'],
-    queryFn: getCompany,
+    queryFn: () => getCompany(params.company),
   })
+
+  console.log(company)
 
   return (
     <HeaderContainer>
@@ -29,7 +35,7 @@ export function Header() {
           </MapPinIconApp>
           {/* <span>Granja portugal</span> */}
           {/* FAzendo teste Api */}
-          {!isFetching && <span>Empresa: {company}</span>}
+          {isFetching ? <span>Carregando...</span> : <span>{company?.data?.fantasyName}</span>}
         </Location>
         <Profile />
       </HeaderWrapper>
