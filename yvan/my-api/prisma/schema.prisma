@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Company {
+  id           Int      @id @default(autoincrement())
+  cnpj         String   @unique
+  socialReason String
+  fantasyName  String
+  tag          String?
+
+  groups       Group[]
+  products     Product[]
+}
+
+model Group {
+  id          Int      @id @default(autoincrement())
+  description String
+  companyId   Int
+  company     Company  @relation(fields: [companyId], references: [id])
+
+  products    Product[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  description String
+  costValue   Float
+  saleValue   Float
+  popular     Boolean
+  groupId     Int
+  companyId   Int
+  imageUrl    String
+  group       Group    @relation(fields: [groupId], references: [id])
+  company     Company  @relation(fields: [companyId], references: [id])
+}
