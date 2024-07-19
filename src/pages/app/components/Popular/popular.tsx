@@ -129,6 +129,54 @@ const ApiPopular = [
     img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
     group: 5,
   },
+  {
+    id: 9,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 10,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 11,
+  },
+  {
+    id: 12,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 13,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 14,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
+  {
+    id: 15,
+    name: 'Hot dog',
+    ingredients: ['Pão', 'Salsicha', 'Queijo'],
+    price: 24.87,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
+    group: 5,
+  },
 ]
 
 export function Popular() {
@@ -139,18 +187,11 @@ export function Popular() {
     (item) => item.group === activeGroup?.groupId,
   )
 
-  if (!activeGroup) {
-    productFiltered = products
-  }
-
   return (
-    productFiltered && (
+    activeGroup ? (
       <PopularContainer>
-        <GroupPopular>
-          <h3>Popular</h3>
-
-          <Link to={`/popular`}>Ver todos</Link>
-        </GroupPopular>
+          <h3>{activeGroup.groupName}</h3>
+        
         <PopularItemGroup>
           {productFiltered.map((item) => {
             return (
@@ -170,5 +211,7 @@ export function Popular() {
         </PopularItemGroup>
       </PopularContainer>
     )
-  )
+  : <GroupPopular>
+  <Link to={`/popular`}>Ver todos</Link>
+</GroupPopular>)
 }

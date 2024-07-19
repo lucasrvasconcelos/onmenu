@@ -14,25 +14,24 @@ export const CleanFilters = styled.button`
   position: absolute;
   top: -10px;
   left: 20px;
-  background: ${(props) => props.theme.colors.white};
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border: 0.5px solid ${(props) => props.theme.colors.primary};
-  color: ${(props) => props.theme.colors.primary};
+  border: none;
   border-radius: 4px;
   padding: 2px 12px;
   padding-right: 8px;
   cursor: pointer;
-
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: ${props => props.theme.colors.primary};
+  background-color: ${props => props.theme.colors.opacity};
+  backdrop-filter: saturate(180%) blur(40px);
+  font-weight: 500;
 
   &:hover {
     color: ${(props) => props.theme.colors.danger};
-    border: 0.5px solid ${(props) => props.theme.colors.danger};
   }
 
   & svg {

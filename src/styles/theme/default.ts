@@ -5,6 +5,7 @@ export const DefaultTheme = {
     background: '#f1f1f1',
     black: 'black',
     white: 'white',
+    opacity : "#ff87321a",
     text: '#333',
     danger: 'red',
     textSecondary: '#666',

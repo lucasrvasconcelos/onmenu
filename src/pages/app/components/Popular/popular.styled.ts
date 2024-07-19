@@ -4,23 +4,40 @@ import { styled } from 'styled-components'
 export const PopularContainer = styled.div`
   margin: 8px;
 
-  & a {
-    color: ${(props) => props.theme.colors.black};
-    text-decoration: none;
-    font-size: 14px;
-    color: ${(props) => props.theme.colors.primary};
+  a {
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: -1px;
+  }
+
+  & h3 {
+    color: ${props => props.theme.colors.primary};
+    padding: 0px 12px;
+    border-radius: 4px;
+    background-color: ${props => props.theme.colors.textHighlight};
+    backdrop-filter: saturate(180%) blur(40px);
+    border: 2px solid ${props => props.theme.colors.primary};
+    width: fit-content;
+    position: sticky;
+    top: 155px;
+    margin-left: 20px;
+    z-index: 1;
   }
 `
 
 export const GroupPopular = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 35px;
-  padding: 0 8px;
+  padding: 18px;
+  position: relative;
+
+  & a {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+  
 `
 export const PopularItemGroup = styled.div`
   display: flex;
@@ -28,15 +45,18 @@ export const PopularItemGroup = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: stretch;
-  gap: 8px;
+  gap: 18px;
   margin-bottom: 35px;
+  padding: 0px 20px;
+  width: 100%;
 `
 
 export const PopularItem = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 320px;
+  min-width: 250px;
+  max-width: 320px;
   flex-direction: column;
   padding: 8px;
   margin-top: 45px;
@@ -44,6 +64,7 @@ export const PopularItem = styled(Link)`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   cursor: pointer;
+  flex: 1;
 `
 
 export const ImageBackground = styled.div`

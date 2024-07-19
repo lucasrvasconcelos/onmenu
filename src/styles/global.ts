@@ -14,4 +14,11 @@ export const GlobalStyle = createGlobalStyle`
     body {
         background-color: ${(props) => props.theme.colors.background};
     }
+
+    a {
+    color: ${(props) => props.theme.colors.black};
+    text-decoration: none;
+    font-size: 14px;
+    color: ${(props) => props.theme.colors.primary};
+    }
 `
