@@ -1,18 +1,23 @@
 import { api } from '../lib/axios'
 
-interface GetCompany {
-  error?: string
+export interface GetCompany {
+  error?: {
+    message: string
+  }
   data?: {
-    id: number;
-    cnpj: string;
-    socialReason: string;
-    fantasyName: string;
-    tag: string | null;
+    id: number
+    cnpj: string
+    socialReason: string
+    fantasyName: string
+    tag: string | null
   }
 }
 
-export async function getCompany(company?: string) {
-  // await api.post('/company')
+interface GetCompanyProps {
+  company?: string
+}
+
+export async function getCompany({ company }: GetCompanyProps) {
   const { data } = await api.get<GetCompany>(`/app/${company}`)
 
   return data

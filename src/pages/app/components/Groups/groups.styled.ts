@@ -25,8 +25,8 @@ export const CleanFilters = styled.button`
   align-items: center;
   gap: 8px;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  color: ${props => props.theme.colors.primary};
-  background-color: ${props => props.theme.colors.opacity};
+  color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.opacity};
   backdrop-filter: saturate(180%) blur(40px);
   font-weight: 500;
 

@@ -12,12 +12,11 @@ export function Router() {
         <Route path="/" element={<PageIndex />} />
       </Route>
 
-      <Route path="/app" element={<AppLayout />}>
+      <Route path="/app" element={<AppLayout header={true} footer={true} />}>
         <Route path="/app/:company" element={<AppDelivery />} />
-        <Route path="/app/:company/popular" element={<AppDelivery />} />
       </Route>
 
-      <Route path="/app">
+      <Route path="/app" element={<AppLayout />}>
         <Route path="/app/:company/:proid/" element={<Item />} />
       </Route>
     </Routes>

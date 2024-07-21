@@ -8,21 +8,14 @@ import {
 } from './header.styled'
 import { Profile } from './profile'
 import { SearchBar } from './searchBar'
-import { useQuery } from '@tanstack/react-query'
-import { getCompany } from '../../../../api/get-company'
-import { useParams } from 'react-router-dom'
+import { GetCompany } from '../../../../api/get-company'
+import { SkeletonGroup } from '../Popular/popular.styled'
 
-export function Header() {
-
-  const params = useParams()
-
-  const { data: company, isFetching } = useQuery({
-    queryKey: ['profile-company'],
-    queryFn: () => getCompany(params.company),
-  })
-
-  console.log(company)
-
+interface HeaderProps {
+  company?: GetCompany
+  isFetching: boolean
+}
+export function Header({ company, isFetching }: HeaderProps) {
   return (
     <HeaderContainer>
       <HeaderWrapper>
@@ -33,9 +26,16 @@ export function Header() {
           <MapPinIconApp size={15}>
             <circle cx="12" cy="10" r="6" />
           </MapPinIconApp>
-          {/* <span>Granja portugal</span> */}
-          {/* FAzendo teste Api */}
-          {isFetching ? <span>Carregando...</span> : <span>{company?.data?.fantasyName}</span>}
+
+          <span>
+            {isFetching ? (
+              <SkeletonGroup height="20px" width="100px" />
+            ) : company?.error ? (
+              company?.error.message
+            ) : (
+              company?.data?.fantasyName
+            )}
+          </span>
         </Location>
         <Profile />
       </HeaderWrapper>

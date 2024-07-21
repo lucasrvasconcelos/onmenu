@@ -3,6 +3,7 @@ import { styled } from 'styled-components'
 
 export const PopularContainer = styled.div`
   margin: 8px;
+  min-height: 1000px;
 
   a {
     font-weight: bold;
@@ -10,35 +11,24 @@ export const PopularContainer = styled.div`
   }
 
   & h3 {
-    color: ${props => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.white};
     padding: 0px 12px;
     border-radius: 4px;
-    background-color: ${props => props.theme.colors.textHighlight};
+    background-color: ${(props) => props.theme.colors.primary};
     backdrop-filter: saturate(180%) blur(40px);
-    border: 2px solid ${props => props.theme.colors.primary};
+    border: 2px solid ${(props) => props.theme.colors.white};
     width: fit-content;
     position: sticky;
-    top: 155px;
+    top: 145px;
     margin-left: 20px;
     z-index: 1;
-  }
-`
-
-export const GroupPopular = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 35px;
-  padding: 18px;
-  position: relative;
-
-  & a {
+    text-transform: capitalize;
+    user-select: none;
+    font-size: 16px;
     font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: -1px;
   }
-  
 `
+
 export const PopularItemGroup = styled.div`
   display: flex;
   justify-content: center;
@@ -46,8 +36,9 @@ export const PopularItemGroup = styled.div`
   flex-wrap: wrap;
   align-items: stretch;
   gap: 18px;
+  row-gap: 40px;
   margin-bottom: 35px;
-  padding: 0px 20px;
+  padding: 40px 20px;
   width: 100%;
 `
 
@@ -55,8 +46,7 @@ export const PopularItem = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 250px;
-  max-width: 320px;
+  width: 320px;
   flex-direction: column;
   padding: 8px;
   margin-top: 45px;
@@ -64,7 +54,6 @@ export const PopularItem = styled(Link)`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   cursor: pointer;
-  flex: 1;
 `
 
 export const ImageBackground = styled.div`
@@ -74,13 +63,18 @@ export const ImageBackground = styled.div`
   flex-direction: column;
   background-color: ${(props) => props.theme.colors.primary};
   border-radius: 9px;
-  padding-bottom: 10px;
   width: 100%;
+  height: 180px;
+  position: relative;
 
   & img {
-    margin-top: -50px;
-    max-width: 320px;
+    height: 230px;
+    width: 230px;
+    object-fit: cover;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 2.275);
+    position: absolute;
+    bottom: 18px;
+    border-radius: 8px;
 
     &:hover {
       transform: translateY(-5px);
@@ -118,29 +112,52 @@ export const NameItemGroup = styled.div`
     right: 2px;
   }
 `
-// export const Ingredients = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   color: ${(props) => props.theme.colors.textSecondary};
-//   text-transform: capitalize;
-//   margin-top: 12px;
 
-//   & div {
-//     padding: 0px 2px;
-//   }
-// `
+interface SkeletonGroupProps {
+  width?: string
+  height?: string
+  animationVelocity?: number
+}
 
-// export const IngredientsName = styled.span`
-//   font-size: 10px;
-//   /* margin-left: 3px; */
-//   background-color: ${(props) => props.theme.colors.placeholder};
-//   border: 0.5px solid ${(props) => props.theme.colors.textSecondary};
-//   border-radius: 4px;
-//   user-select: none;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   text-align: center;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `
+export const Skeleton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  gap: 18px;
+  padding: 20px;
+
+  @media (max-width: 320px) {
+    flex-direction: column;
+  }
+`
+
+export const SkeletonGroup = styled.div<SkeletonGroupProps>`
+  content: ' ';
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  flex: 1;
+  padding: 10px;
+  cursor: pointer;
+  min-width: 320px;
+  min-height: 100px;
+
+  opacity: 1;
+  border-radius: 8px;
+  background-color: ${(props) => props.theme.colors.border};
+  animation: skeletonAnimate ease-in-out
+    ${(props) => (props.animationVelocity ? props.animationVelocity : '0.5s')}
+    alternate infinite;
+
+  @keyframes skeletonAnimate {
+    from {
+      opacity: 0.8;
+    }
+  }
+`

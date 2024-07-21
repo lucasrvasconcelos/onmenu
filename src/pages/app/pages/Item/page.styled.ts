@@ -2,6 +2,12 @@ import { styled } from 'styled-components'
 
 export const ItemDetailsContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 45px;
 `
 
 export const MenuOptionsItem = styled.div`
@@ -9,6 +15,9 @@ export const MenuOptionsItem = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 48px 38px 14px;
+  position: fixed;
+  top: 0;
+  width: 100%;
 
   & button {
     background-color: transparent;
@@ -43,6 +52,10 @@ export const DetailsItem = styled.div`
   align-items: center;
   padding: 18px 12px;
 
+  & h1 {
+    text-transform: capitalize;
+  }
+
   & ul {
     list-style: none;
     display: flex;
@@ -60,11 +73,9 @@ export const DetailsItem = styled.div`
       color: ${(props) => props.theme.colors.text};
       border-radius: 4px;
       user-select: none;
-      /* overflow: hidden; */
-      /* text-overflow: ellipsis; */
       text-align: center;
       flex: 1;
-      /* font-weight: bold; */
+      text-transform: lowercase;
     }
   }
 
@@ -84,12 +95,13 @@ export const DetailsItem = styled.div`
       position: absolute;
       width: 100%;
       height: 15px;
-      bottom: -9px;
+      bottom: -16px;
       left: 0;
       right: 0;
+      z-index: 1;
       background-color: ${(props) => props.theme.colors.border};
       border-radius: 100%;
-      filter: blur(2px);
+      filter: blur(3px);
       transform: scaleX(70%);
       animation: animateShadowItem 3s linear infinite alternate;
     }
@@ -97,7 +109,7 @@ export const DetailsItem = styled.div`
 
   @keyframes animateShadowItem {
     to {
-      transform: scaleX(90%);
+      transform: scaleX(110%);
       filter: blur(5px);
     }
   }
@@ -106,5 +118,83 @@ export const DetailsItem = styled.div`
     from {
       transform: translateY(15px);
     }
+  }
+`
+export const FormContainer = styled.form`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin-top: 18px;
+
+  & input {
+    width: 60px;
+    font-size: 22px;
+    text-align: center;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: ${(props) => props.theme.colors.placeholder};
+    padding: 2px 4px;
+    font-weight: bold;
+  }
+
+  & button {
+    width: 40px;
+    background-color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.white};
+    border: none;
+    height: 40px;
+    font-size: 30px;
+    border-radius: 30%;
+    line-height: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+  }
+`
+
+export const CartApp = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  padding-bottom: 24px;
+
+  & div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+
+    & h4 {
+      font-size: 14px;
+      color: ${(props) => props.theme.colors.primary};
+      letter-spacing: 1px;
+    }
+
+    & span {
+      font-size: 25px;
+      font-weight: bold;
+    }
+  }
+
+  & button {
+    background-color: ${(props) => props.theme.colors.primary};
+    padding: 8px 60px;
+    border-radius: 6px;
+    border: 0.5px solid ${(props) => props.theme.colors.white};
+    text-align: center;
+    font-size: 15px;
+    color: ${(props) => props.theme.colors.white};
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
   }
 `

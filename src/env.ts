@@ -6,7 +6,7 @@ const envSchema = z.object({
     .url('Não é uma URL válida'),
 })
 
-console.log(import.meta.env.VITE_API_URL)
+// console.log(import.meta.env.VITE_API_URL)
 export const env = envSchema.parse({
   VITE_API_URL: import.meta.env.VITE_API_URL,
 })

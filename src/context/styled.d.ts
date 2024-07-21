@@ -1,10 +1,3 @@
-export interface Group {
-  groupId: number
-  groupName: string
-  groupImage: string
-  groupSearchDescription: string
-}
-
 export interface Profile {
   name: string
   email: string

@@ -1,18 +1,36 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import { Header } from '../app/components/Header/header'
 import { AppProvider } from '../../context/app.context'
 import { Footer } from '../app/components/Footer/footer'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '../../lib/react-query'
+import { getCompany } from '../../api/get-company'
+import { useQuery } from '@tanstack/react-query'
 
-export function AppLayout() {
+interface AppLayoutProps {
+  header?: boolean
+  footer?: boolean
+}
+
+export function AppLayout({ header, footer }: AppLayoutProps) {
+  const params = useParams()
+
+  const { data: company, isFetching } = useQuery({
+    queryKey: ['profile-company'],
+    queryFn: () => getCompany({ company: params.company }),
+  })
+
+  if (!company) {
+    console.log('Company não definida')
+  }
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <AppProvider>
-        <Header />
-        <Outlet />
-        <Footer />
-      </AppProvider>
-    </QueryClientProvider>
+    <AppProvider>
+      {company?.data && (
+        <>
+          {header && <Header company={company} isFetching={isFetching} />}
+          <Outlet />
+          {footer && <Footer />}
+        </>
+      )}
+    </AppProvider>
   )
 }

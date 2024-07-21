@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react'
-import { Group, Profile } from './styled'
-import { useParams } from 'react-router-dom'
+import { Profile } from './styled'
 
 /// ////////////////////// API /////////////////////////////////
 const ApiProfile: Profile = {
@@ -19,17 +18,19 @@ const ApiProfile: Profile = {
   seachbardescription: 'Search our delicious burgers(PROFILE)',
 }
 
-interface AppContextInterface {
-  company?: string
-  groups?: Group[]
-  activeGroup?: Group
-  profile: Profile
-  seachbarDescription?: string
+export interface ActiveGroup {
+  id: number
+  description: string
+  companyId: number
+  groupSearchDescription: string
+}
 
-  handleGroup: (groups: Group[]) => void
+interface AppContextInterface {
+  activeGroup?: ActiveGroup
+  profile: Profile
+
   handleProfile: (profile: Profile) => void
-  handleSeachbarDescription: (seachbarDescription?: string) => void
-  handleActiveGroup: (group?: Group) => void
+  handleActiveGroup: (group?: ActiveGroup) => void
 }
 
 export const AppContext = createContext({} as AppContextInterface)
@@ -39,45 +40,25 @@ interface AppProviderProps {
 }
 
 export function AppProvider({ children }: AppProviderProps) {
-  const { company } = useParams()
-
-  const [groups, setGroups] = useState<Group[]>()
-  const [activeGroup, setActiveGroup] = useState<Group | undefined>(undefined)
+  const [activeGroup, setActiveGroup] = useState<ActiveGroup | undefined>(
+    undefined,
+  )
   const [profile, setProfile] = useState<Profile>(ApiProfile)
-  const [seachbarDescription, setSeachbarDescription] = useState<
-    string | undefined
-  >(profile.seachbardescription)
-
-  function handleGroup(groups: Group[]) {
-    setGroups(groups)
-  }
 
   function handleProfile(profile: Profile) {
     setProfile(profile)
   }
 
-  function handleSeachbarDescription(seachbarDescription?: string) {
-    if (seachbarDescription) {
-      setSeachbarDescription(profile.seachbardescription)
-    }
-    setSeachbarDescription(seachbarDescription)
-  }
-
-  function handleActiveGroup(group?: Group) {
+  function handleActiveGroup(group?: ActiveGroup) {
     setActiveGroup(group)
   }
 
   return (
     <AppContext.Provider
       value={{
-        company,
-        groups,
         profile,
-        seachbarDescription,
         activeGroup,
-        handleGroup,
         handleProfile,
-        handleSeachbarDescription,
         handleActiveGroup,
       }}
     >

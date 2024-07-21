@@ -21,4 +21,9 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 14px;
     color: ${(props) => props.theme.colors.primary};
     }
+
+    img {
+        user-select: none;
+    }
+
 `

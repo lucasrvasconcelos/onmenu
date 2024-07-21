@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { UseAppContext } from '../../../../context/use.app.context'
 import {
   CategoryContainer,
   CategoryImage,
@@ -10,91 +8,50 @@ import {
 } from './groups.styled'
 import { ArrowRight, X } from 'lucide-react'
 import { NoData } from '../../../../components/noData'
-import { Group as GroupsType } from '../../../../context/styled'
+import { getGroups } from '../../../../api/get-groups'
+import { useQuery } from '@tanstack/react-query'
+import { UseAppContext } from '../../../../context/use.app.context'
+import { useEffect } from 'react'
+import { SkeletonGroup } from '../Popular/popular.styled'
 
-const ApiGroups: GroupsType[] = [
-  {
-    groupId: 1,
-    groupName: 'Burguer',
-    groupImage:
-      'https://static.vecteezy.com/system/resources/thumbnails/025/076/438/small/pizza-isolated-illustration-ai-generative-png.png',
-    groupSearchDescription: 'Search our delicious burgers',
-  },
-  {
-    groupId: 2,
-    groupName: 'Sandwich',
-    groupImage: 'https://picsum.photos/200/300?random=2',
-    groupSearchDescription: 'Search our delicious Sandwich',
-  },
-  {
-    groupId: 3,
-    groupName: 'Tacos',
-    groupImage: 'https://picsum.photos/200/300?random=3',
-    groupSearchDescription: 'Search our delicious Tacos',
-  },
-  {
-    groupId: 4,
-    groupName: 'Batatinha frita',
-    groupImage: 'https://picsum.photos/200/300?random=1',
-    groupSearchDescription: 'Search our delicious French fries',
-  },
-  {
-    groupId: 5,
-    groupName: 'Pizzas',
-    groupImage: 'https://picsum.photos/200/300?random=2',
-    groupSearchDescription: 'Search our delicious Pizzas',
-  },
-  {
-    groupId: 6,
-    groupName: 'Hot dog',
-    groupImage: 'https://picsum.photos/200/300?random=3',
-    groupSearchDescription: 'Search our delicious Hot Dog',
-  },
-  {
-    groupId: 7,
-    groupName: 'Hot dog2',
-    groupImage: 'https://picsum.photos/200/300?random=3',
-    groupSearchDescription: 'Search our delicious Hot Dog',
-  },
-
-  {
-    groupId: 8,
-    groupName: 'Hot dog3',
-    groupImage: 'https://picsum.photos/200/300?random=3',
-    groupSearchDescription: 'Search our delicious Hot Dog',
-  },
-]
+interface HandleGroupSelectionProps {
+  id: number
+  description: string
+  companyId: number
+  groupSearchDescription: string
+}
 
 export function Groups() {
-  const { handleSeachbarDescription, handleActiveGroup } = UseAppContext()
-  const [groups] = useState(ApiGroups)
+  const { activeGroup, handleActiveGroup } = UseAppContext()
+  const params = useParams()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const groupParam = searchParams.get('group')
-  const activeGroup = groupParam
-    ? groups.find((g) => g.groupName === groupParam)
-    : null
+
+  const { data: groups, isFetching } = useQuery({
+    queryKey: ['groups'],
+    queryFn: () => getGroups({ company: params.company, group: groupParam }),
+  })
+
+  const activeGroupFiltered = groupParam
+    ? groups?.data?.find((g) => g.description === groupParam)
+    : undefined
 
   useEffect(() => {
-    if (activeGroup) {
-      handleActiveGroup(activeGroup)
-      handleSeachbarDescription(activeGroup.groupSearchDescription)
-    }
-  }, [activeGroup, handleActiveGroup, handleSeachbarDescription])
+    if (activeGroupFiltered) handleActiveGroup(activeGroupFiltered)
+  }, [activeGroupFiltered, handleActiveGroup])
 
-  function handleGroupSelection(group?: GroupsType) {
+  function handleGroupSelection(group?: HandleGroupSelectionProps) {
     if (!group) {
       searchParams.delete('group')
       setSearchParams(searchParams)
-      handleSeachbarDescription()
       handleActiveGroup()
       return
     }
 
-    searchParams.set('group', group.groupName)
+    searchParams.set('group', group.description)
     setSearchParams(searchParams)
     handleActiveGroup(group)
-    handleSeachbarDescription(group.groupSearchDescription)
   }
 
   return (
@@ -105,41 +62,46 @@ export function Groups() {
         </CleanFilters>
       )}
 
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={24}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
-        breakpoints={{
-          640: {
-            slidesPerView: 3,
-            spaceBetween: 8,
-          },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 8,
-          },
-        }}
-      >
-        {groups?.map((group) => (
-          <SwiperSlide
-            key={group.groupId}
-            onClick={() => handleGroupSelection(group)}
+      {!isFetching ? (
+        !groups?.data ? (
+          <NoData>Sem informações a serem mostradas</NoData>
+        ) : (
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={24}
+            speed={0}
+            breakpoints={{
+              640: {
+                slidesPerView: 3,
+                spaceBetween: 8,
+              },
+              768: {
+                slidesPerView: 4,
+                spaceBetween: 8,
+              },
+            }}
           >
-            <CategoryItem
-              className={activeGroup?.groupId === group.groupId ? 'active' : ''}
-            >
-              <CategoryImage>
-                <img src={group.groupImage} alt={group.groupName} />
-              </CategoryImage>
-              <span>{group.groupName}</span>
-              <ArrowRight size={25} />
-            </CategoryItem>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      {!groups && <NoData>Sem informações a serem mostradas</NoData>}
+            {groups?.data?.map((group) => (
+              <SwiperSlide
+                key={group.id}
+                onClick={() => handleGroupSelection(group)}
+              >
+                <CategoryItem
+                  className={activeGroup?.id === group.id ? 'active' : ''}
+                >
+                  <CategoryImage>
+                    <img src={group.imageUrl} alt="" /> /
+                  </CategoryImage>
+                  <span>{group.description}</span>
+                  <ArrowRight size={25} />
+                </CategoryItem>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )
+      ) : (
+        <SkeletonGroup width="100%" height="200px" />
+      )}
     </CategoryContainer>
   )
 }

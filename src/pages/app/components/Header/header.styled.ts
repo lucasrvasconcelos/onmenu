@@ -38,7 +38,7 @@ export const Location = styled.div`
 
   & > span {
     font-size: 13px;
-    font-weight: 700;
+    font-weight: bold;
     text-transform: capitalize;
     color: ${(props) => props.theme.colors.black};
   }
