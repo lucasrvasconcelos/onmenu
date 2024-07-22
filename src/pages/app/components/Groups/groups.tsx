@@ -54,6 +54,9 @@ export function Groups() {
     handleActiveGroup(group)
   }
 
+  const groupLength =
+    groups?.data && groups?.data?.length < 4 ? groups.data?.length : 4
+
   return (
     <CategoryContainer>
       {activeGroup && (
@@ -67,19 +70,18 @@ export function Groups() {
           <NoData>Sem informações a serem mostradas</NoData>
         ) : (
           <Swiper
-            slidesPerView={3}
+            slidesPerView={groupLength}
             spaceBetween={24}
-            speed={0}
-            breakpoints={{
-              640: {
-                slidesPerView: 3,
-                spaceBetween: 8,
-              },
-              768: {
-                slidesPerView: 4,
-                spaceBetween: 8,
-              },
-            }}
+            // breakpoints={{
+            //   640: {
+            //     slidesPerView: 3,
+            //     spaceBetween: 8,
+            //   },
+            //   768: {
+            //     slidesPerView: 4,
+            //     spaceBetween: 8,
+            //   },
+            // }}
           >
             {groups?.data?.map((group) => (
               <SwiperSlide

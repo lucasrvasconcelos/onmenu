@@ -19,7 +19,8 @@ export const MenuOptionsItem = styled.div`
   top: 0;
   width: 100%;
 
-  & button {
+  & button,
+  & a {
     background-color: transparent;
     line-height: 0%;
     border: none;
@@ -28,19 +29,21 @@ export const MenuOptionsItem = styled.div`
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     background-color: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.black};
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 2.275);
 
     &:hover {
       transform: scale(1.06);
     }
+
+    & svg {
+      padding: 8px;
+      transition: none;
+    }
   }
 
   & button > svg {
-    padding: 8px;
-    transition: none;
-  }
-
-  & button > svg:nth-child(2) {
+    /* background-color: ${(props) => props.theme.colors.danger}; */
     color: ${(props) => props.theme.colors.danger};
   }
 `
@@ -74,6 +77,10 @@ export const DetailsItem = styled.div`
       border-radius: 4px;
       user-select: none;
       text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 200px;
+      text-overflow: ellipsis;
       flex: 1;
       text-transform: lowercase;
     }

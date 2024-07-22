@@ -1,22 +1,4 @@
 import { createContext, useState } from 'react'
-import { Profile } from './styled'
-
-/// ////////////////////// API /////////////////////////////////
-const ApiProfile: Profile = {
-  name: 'Lucas rodrigues',
-  email: 'lucasrodrigues@outlook.com',
-  phone: '11 99999-9999',
-  address: 'Rua das Flores, 123',
-  city: 'São Paulo',
-  state: 'SP',
-  country: 'Brasil',
-  zipCode: '12345-678',
-  cpf: '123.456.789-10',
-  cnpj: '12.345.678/0001-10',
-  company: 'Lucas rodrigues',
-  avatarUrl: 'https://picsum.photos/200/300?random=1',
-  seachbardescription: 'Search our delicious burgers(PROFILE)',
-}
 
 export interface ActiveGroup {
   id: number
@@ -25,12 +7,25 @@ export interface ActiveGroup {
   groupSearchDescription: string
 }
 
+interface ItensOrder {
+  id: number
+  description: string
+  quantity: number
+}
+
+// interface PreOrder {
+//   id: number
+//   itensOrder: ItensOrder[]
+//   company: string
+//   createAt: Date
+//   status: string
+// }
+
 interface AppContextInterface {
   activeGroup?: ActiveGroup
-  profile: Profile
-
-  handleProfile: (profile: Profile) => void
+  itensOrder: ItensOrder[]
   handleActiveGroup: (group?: ActiveGroup) => void
+  addItemOrder: (item: ItensOrder) => void
 }
 
 export const AppContext = createContext({} as AppContextInterface)
@@ -43,23 +38,33 @@ export function AppProvider({ children }: AppProviderProps) {
   const [activeGroup, setActiveGroup] = useState<ActiveGroup | undefined>(
     undefined,
   )
-  const [profile, setProfile] = useState<Profile>(ApiProfile)
 
-  function handleProfile(profile: Profile) {
-    setProfile(profile)
-  }
+  const [itensOrder, setItensOrder] = useState<ItensOrder[]>(() => {
+    const storedItensOrder = localStorage.getItem('itensOrder')
+    return storedItensOrder ? JSON.parse(storedItensOrder) : []
+  })
+
+  // const [preOrder, setPreOrder] = useState<PreOrder>()
 
   function handleActiveGroup(group?: ActiveGroup) {
     setActiveGroup(group)
   }
 
+  function addItemOrder(item: ItensOrder) {
+    setItensOrder((prevItensOrder) => {
+      const updatedItensOrder = [...prevItensOrder, item]
+      localStorage.setItem('itensOrder', JSON.stringify(updatedItensOrder))
+      return updatedItensOrder
+    })
+  }
+
   return (
     <AppContext.Provider
       value={{
-        profile,
         activeGroup,
-        handleProfile,
+        itensOrder,
         handleActiveGroup,
+        addItemOrder,
       }}
     >
       {children}

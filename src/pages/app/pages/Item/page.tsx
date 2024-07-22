@@ -1,5 +1,5 @@
 import { ArrowLeft, Heart } from 'lucide-react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -16,7 +16,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SkeletonGroup } from '../../components/Popular/popular.styled'
 
 export function Item() {
-  const navigate = useNavigate()
   const { company, proid } = useParams<{ company?: string; proid: string }>()
 
   const { data: product, isFetching } = useQuery({
@@ -52,9 +51,9 @@ export function Item() {
     product?.data ? (
       <ItemDetailsContainer>
         <MenuOptionsItem>
-          <button onClick={() => navigate(-1)}>
+          <Link to={`/app/${company}`}>
             <ArrowLeft size={35} />
-          </button>
+          </Link>
           <button>
             <Heart size={35} strokeWidth={2} />
           </button>
@@ -64,7 +63,11 @@ export function Item() {
           {product?.data?.ProductIngredient && (
             <ul>
               {product?.data?.ProductIngredient.map((item) => {
-                return <li key={item.id}>{item.description}</li>
+                return (
+                  <li key={item.id} title={item.description}>
+                    {item.description}
+                  </li>
+                )
               })}
             </ul>
           )}
@@ -95,6 +98,6 @@ export function Item() {
       <span>Empresa inválida</span>
     )
   ) : (
-    <SkeletonGroup width="100%" height="100%"></SkeletonGroup>
+    <SkeletonGroup width="100%" height="100vh"></SkeletonGroup>
   )
 }
