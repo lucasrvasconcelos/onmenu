@@ -7,7 +7,7 @@ export interface ActiveGroup {
   groupSearchDescription: string
 }
 
-interface ItensOrder {
+export interface ItensOrder {
   id: number
   description: string
   quantity: number

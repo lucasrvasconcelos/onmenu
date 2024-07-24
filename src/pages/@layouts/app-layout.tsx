@@ -18,7 +18,7 @@ export function AppLayout({ header, footer }: AppLayoutProps) {
     queryFn: () => getCompany({ company: params.company }),
   })
 
-  if (!company) {
+  if (!isFetching && !company) {
     console.log('Company não definida')
   }
 

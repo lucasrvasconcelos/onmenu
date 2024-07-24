@@ -7,16 +7,21 @@ import {
   DetailsItem,
   FormContainer,
   ItemDetailsContainer,
+  ItensControl,
   MenuOptionsItem,
+  Observation,
+  SetQuantity,
 } from './page.styled'
 import { getProduct } from '../../../../api/get-product'
 import { useQuery } from '@tanstack/react-query'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { SkeletonGroup } from '../../components/Popular/popular.styled'
+import { useState } from 'react'
+import { ItensOrder } from '../../../../context/app.context'
+import { formatCurrency } from '../../../../utils/currency'
 
 export function Item() {
   const { company, proid } = useParams<{ company?: string; proid: string }>()
+  const [quantityInput, setQuantityInput] = useState(1)
 
   const { data: product, isFetching } = useQuery({
     queryKey: ['product'],
@@ -27,77 +32,116 @@ export function Item() {
       }),
   })
 
-  const schema = z.object({
-    quantity: z.number().int().min(1),
-  })
+  // const schema = z.object({
+  //   // quantity: z.number().min(1),
+  // })
 
-  type AddItemCartType = z.infer<typeof schema>
+  // type AddItemCartType = z.infer<typeof schema>
 
   const {
-    register,
+    // register,
     handleSubmit,
+    // watch,
     formState: { errors },
-  } = useForm<AddItemCartType>({
-    resolver: zodResolver(schema),
+  } = useForm({
+    // resolver: zodResolver(schema),
   })
 
-  function addItemCart({ quantity }: AddItemCartType) {
-    console.log(quantity)
+  function handleDecreaseQuantity(quantity: number) {
+    setQuantityInput((state) => {
+      if (state + quantity === 0) {
+        return state
+      }
+      return state + quantity
+    })
   }
 
-  console.log(errors)
+  function addItemCart() {
+    console.log('Adicionado item')
+    if (product?.data?.id) {
+      const newItem: ItensOrder = {
+        id: product?.data?.id,
+        description: product?.data?.description,
+        quantity: quantityInput,
+      }
+      console.log(newItem)
+      setQuantityInput(1)
+    }
+  }
 
-  return !isFetching ? (
-    product?.data ? (
-      <ItemDetailsContainer>
-        <MenuOptionsItem>
-          <Link to={`/app/${company}`}>
-            <ArrowLeft size={35} />
-          </Link>
-          <button>
-            <Heart size={35} strokeWidth={2} />
-          </button>
-        </MenuOptionsItem>
-        <DetailsItem>
-          <h1>{product?.data?.description}</h1>
-          {product?.data?.ProductIngredient && (
-            <ul>
-              {product?.data?.ProductIngredient.map((item) => {
-                return (
-                  <li key={item.id} title={item.description}>
-                    {item.description}
-                  </li>
-                )
-              })}
-            </ul>
-          )}
+  if (errors) {
+    console.log(errors)
+  }
 
+  return (
+    <ItemDetailsContainer>
+      <MenuOptionsItem>
+        <Link to={`/app/${company}`}>
+          <ArrowLeft size={35} />
+        </Link>
+        <button>
+          <Heart size={35} strokeWidth={2} />
+        </button>
+      </MenuOptionsItem>
+      <DetailsItem>
+        {isFetching ? (
+          <SkeletonGroup width="100px" height="24px" />
+        ) : (
+          <h1>
+            {product?.data?.description
+              ? product?.data?.description
+              : 'Produto sem descrição'}
+          </h1>
+        )}
+
+        {product?.data?.ProductIngredient && (
+          <ul>
+            {product?.data?.ProductIngredient.map((item) => {
+              return (
+                <li key={item.id} title={item.description}>
+                  {item.description}
+                </li>
+              )
+            })}
+          </ul>
+        )}
+
+        {product?.data?.imageUrl ? (
           <div>
-            {product?.data?.imageUrl ? (
-              <img src={product?.data?.imageUrl} alt="" />
-            ) : (
-              'Sem imagem'
-            )}
+            <img src={product?.data?.imageUrl} alt="" />
           </div>
-        </DetailsItem>
-        <FormContainer onSubmit={handleSubmit(addItemCart)}>
-          <button>-</button>
-          <input type="number" defaultValue={2} {...register('quantity')} />
-          <button>+</button>
+        ) : (
+          <p>Produto sem imagem</p>
+        )}
+      </DetailsItem>
+      <form onSubmit={handleSubmit(addItemCart)}>
+        <FormContainer>
+          <ItensControl>
+            <SetQuantity>
+              <button onClick={() => handleDecreaseQuantity(-1)} type="button">
+                -
+              </button>
+              <span>{quantityInput}</span>
+              <button onClick={() => handleDecreaseQuantity(1)} type="button">
+                +
+              </button>
+            </SetQuantity>
+            <Observation type="button">Observações</Observation>
+          </ItensControl>
+
+          <CartApp>
+            <div>
+              <h4>Subtotal</h4>
+              <span>
+                {formatCurrency(
+                  quantityInput * (product?.data?.saleValue || 0),
+                )}
+              </span>
+            </div>
+            <button type="submit">ADD</button>
+          </CartApp>
         </FormContainer>
-
-        <CartApp>
-          <div>
-            <h4>Subtotal</h4>
-            <span>R$ 22,85</span>
-          </div>
-          <button>Adicionar</button>
-        </CartApp>
-      </ItemDetailsContainer>
-    ) : (
-      <span>Empresa inválida</span>
-    )
-  ) : (
-    <SkeletonGroup width="100%" height="100vh"></SkeletonGroup>
+      </form>
+    </ItemDetailsContainer>
   )
 }

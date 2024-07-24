@@ -127,40 +127,74 @@ export const DetailsItem = styled.div`
     }
   }
 `
-export const FormContainer = styled.form`
+export const FormContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+
   gap: 25px;
   margin-top: 18px;
+`
 
-  & input {
-    width: 60px;
-    font-size: 22px;
-    text-align: center;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    background-color: ${(props) => props.theme.colors.placeholder};
-    padding: 2px 4px;
-    font-weight: bold;
-  }
+export const ItensControl = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-direction: row;
+`
+export const Observation = styled.button`
+  height: 35px;
+  width: 100%;
+  background-color: ${(props) => props.theme.colors.secundary};
+  color: ${(props) => props.theme.colors.white};
+  border: none;
+  font-size: 15px;
+  padding: 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  line-height: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+`
+export const SetQuantity = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  gap: 2px;
 
   & button {
-    width: 40px;
+    width: 35px;
+    height: 35px;
     background-color: ${(props) => props.theme.colors.primary};
     color: ${(props) => props.theme.colors.white};
     border: none;
-    height: 40px;
     font-size: 30px;
-    border-radius: 30%;
+    padding: 8px;
+    border-radius: 4px;
+
     line-height: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     user-select: none;
     cursor: pointer;
+  }
+
+  & span {
+    width: 80px;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    /* background-color: red; */
   }
 `
 

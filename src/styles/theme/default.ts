@@ -1,11 +1,12 @@
 export const DefaultTheme = {
   colors: {
-    primary: '#FF8732',
+    primary: '#F23738',
+    secundary: '#FF762A',
     attention: '#f1c40f',
     background: '#f1f1f1',
     black: 'black',
     white: 'white',
-    opacity : "#ff87321a",
+    opacity: '#ff87321a',
     text: '#333',
     danger: 'red',
     textSecondary: '#666',
