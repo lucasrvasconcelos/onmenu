@@ -1,4 +1,4 @@
-import { ArrowLeft, Heart } from 'lucide-react'
+import { ArrowLeft, Heart, Minus, Plus } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
@@ -9,7 +9,6 @@ import {
   ItemDetailsContainer,
   ItensControl,
   MenuOptionsItem,
-  Observation,
   SetQuantity,
 } from './page.styled'
 import { getProduct } from '../../../../api/get-product'
@@ -18,10 +17,12 @@ import { SkeletonGroup } from '../../components/Popular/popular.styled'
 import { useState } from 'react'
 import { ItensOrder } from '../../../../context/app.context'
 import { formatCurrency } from '../../../../utils/currency'
+import { ObservationDialog } from '../../components/Dialog/dialog'
 
 export function Item() {
   const { company, proid } = useParams<{ company?: string; proid: string }>()
   const [quantityInput, setQuantityInput] = useState(1)
+  const [observationDescription, setObservationDescription] = useState('')
 
   const { data: product, isFetching } = useQuery({
     queryKey: ['product'],
@@ -42,7 +43,7 @@ export function Item() {
     // register,
     handleSubmit,
     // watch,
-    formState: { errors },
+    // formState: { errors },
   } = useForm({
     // resolver: zodResolver(schema),
   })
@@ -63,14 +64,26 @@ export function Item() {
         id: product?.data?.id,
         description: product?.data?.description,
         quantity: quantityInput,
+        observation: observationDescription,
       }
       console.log(newItem)
       setQuantityInput(1)
+      setObservationDescription('')
     }
   }
 
-  if (errors) {
-    console.log(errors)
+  function handleObservationDescription(observation: string, clear?: boolean) {
+    setObservationDescription((state) => {
+      if (clear) {
+        return ''
+      }
+
+      if (observation.length <= 255) {
+        return observation
+      }
+
+      return state
+    })
   }
 
   return (
@@ -116,18 +129,30 @@ export function Item() {
       </DetailsItem>
       <form onSubmit={handleSubmit(addItemCart)}>
         <FormContainer>
-          <ItensControl>
-            <SetQuantity>
-              <button onClick={() => handleDecreaseQuantity(-1)} type="button">
-                -
-              </button>
-              <span>{quantityInput}</span>
-              <button onClick={() => handleDecreaseQuantity(1)} type="button">
-                +
-              </button>
-            </SetQuantity>
-            <Observation type="button">Observações</Observation>
-          </ItensControl>
+          {product?.data ? (
+            <ItensControl>
+              <SetQuantity>
+                <button
+                  onClick={() => handleDecreaseQuantity(-1)}
+                  type="button"
+                >
+                  <Minus />
+                </button>
+                <span>{quantityInput}</span>
+                <button onClick={() => handleDecreaseQuantity(1)} type="button">
+                  <Plus />
+                </button>
+              </SetQuantity>
+              <ObservationDialog
+                product={product}
+                quantity={quantityInput}
+                observationDescription={observationDescription}
+                handleObservationDescription={handleObservationDescription}
+              />
+            </ItensControl>
+          ) : (
+            <SkeletonGroup />
+          )}
 
           <CartApp>
             <div>

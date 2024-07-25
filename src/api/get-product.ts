@@ -1,6 +1,6 @@
 import { api } from '../lib/axios'
 
-interface GetProduct {
+export interface GetProduct {
   error?: {
     message: string
   }

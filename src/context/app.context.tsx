@@ -11,6 +11,7 @@ export interface ItensOrder {
   id: number
   description: string
   quantity: number
+  observation?: string
 }
 
 // interface PreOrder {

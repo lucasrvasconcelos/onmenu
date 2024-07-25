@@ -139,24 +139,21 @@ export const FormContainer = styled.div`
 
 export const ItensControl = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 18px;
   flex-direction: row;
 `
 export const Observation = styled.button`
-  height: 35px;
   width: 100%;
-  background-color: ${(props) => props.theme.colors.secundary};
-  color: ${(props) => props.theme.colors.white};
-  border: none;
-  font-size: 15px;
+  background-color: ${(props) => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.primary};
+  border: 1px solid ${(props) => props.theme.colors.primary};
+  font-size: 16px;
   padding: 8px;
   border-radius: 4px;
   text-transform: capitalize;
   font-weight: 600;
-  letter-spacing: 1px;
-
   line-height: 0px;
   display: flex;
   align-items: center;
@@ -172,8 +169,6 @@ export const SetQuantity = styled.div`
   gap: 2px;
 
   & button {
-    width: 35px;
-    height: 35px;
     background-color: ${(props) => props.theme.colors.primary};
     color: ${(props) => props.theme.colors.white};
     border: none;
@@ -187,6 +182,10 @@ export const SetQuantity = styled.div`
     justify-content: center;
     user-select: none;
     cursor: pointer;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
   & span {
@@ -194,7 +193,6 @@ export const SetQuantity = styled.div`
     font-size: 25px;
     font-weight: bold;
     text-align: center;
-    /* background-color: red; */
   }
 `
 
