@@ -12,7 +12,7 @@ import { getGroups } from '../../../../api/get-groups'
 import { useQuery } from '@tanstack/react-query'
 import { UseAppContext } from '../../../../context/use.app.context'
 import { useEffect } from 'react'
-import { SkeletonGroup } from '../Popular/popular.styled'
+import { Skeleton, SkeletonGroup } from '../Skeleton/skeleton.styled'
 
 interface HandleGroupSelectionProps {
   id: number
@@ -55,6 +55,9 @@ export function Groups() {
   }
 
   const groupLength =
+    groups?.data && groups?.data?.length < 3 ? groups.data?.length : 3
+
+  const breakpointsScreen =
     groups?.data && groups?.data?.length < 4 ? groups.data?.length : 4
 
   return (
@@ -72,16 +75,12 @@ export function Groups() {
           <Swiper
             slidesPerView={groupLength}
             spaceBetween={24}
-            // breakpoints={{
-            //   640: {
-            //     slidesPerView: 3,
-            //     spaceBetween: 8,
-            //   },
-            //   768: {
-            //     slidesPerView: 4,
-            //     spaceBetween: 8,
-            //   },
-            // }}
+            breakpoints={{
+              640: {
+                slidesPerView: breakpointsScreen,
+                spaceBetween: 18,
+              },
+            }}
           >
             {groups?.data?.map((group) => (
               <SwiperSlide
@@ -102,7 +101,20 @@ export function Groups() {
           </Swiper>
         )
       ) : (
-        <SkeletonGroup width="100%" height="200px" />
+        <SkeletonGroup
+          display="flex"
+          flexDirection="row"
+          gap="18px"
+          nowrap="nowrap"
+        >
+          <Skeleton width="180px" height="200px" />
+          <Skeleton width="180px" height="200px" />
+          <Skeleton width="180px" height="200px" />
+          <Skeleton width="180px" height="200px" />
+          <Skeleton width="180px" height="200px" />
+          <Skeleton width="180px" height="200px" />
+          <Skeleton width="180px" height="200px" />
+        </SkeletonGroup>
       )}
     </CategoryContainer>
   )

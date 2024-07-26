@@ -1,6 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { Observation } from '../../pages/Item/page.styled'
-import { ScrollText } from 'lucide-react'
+import { PencilLine } from 'lucide-react'
 import {
   SaveObservation,
   DialogContent,
@@ -29,7 +29,7 @@ export function ObservationDialog({
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <Observation type="button">
-          <ScrollText />
+          <PencilLine />
         </Observation>
       </Dialog.Trigger>
       <Dialog.Portal>
@@ -43,7 +43,11 @@ export function ObservationDialog({
                 </Dialog.Description>
                 <ObservationContainer>
                   <div>
-                    ({quantity}) <span>{product.data?.description}</span>
+                    {product.data?.description && (
+                      <span>
+                        {quantity}x {product.data.description}
+                      </span>
+                    )}
                   </div>
                   <textarea
                     placeholder="Ex: sem tomate e sem mostarda"

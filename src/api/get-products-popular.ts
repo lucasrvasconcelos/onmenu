@@ -25,7 +25,8 @@ export async function getProductsPopulars({
   company,
   groupId,
 }: GetProductsPopularProps) {
-  // await api.post('/company')
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
   const { data } = await api.get<GetProductsPopular>(
     `/app/${company}/popular`,
     {

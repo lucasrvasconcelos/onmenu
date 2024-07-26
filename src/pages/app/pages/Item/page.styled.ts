@@ -85,33 +85,32 @@ export const DetailsItem = styled.div`
       text-transform: lowercase;
     }
   }
+`
 
-  & div img {
+export const ImageItem = styled.div`
+  margin-top: 40px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    bottom: -16px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: ${(props) => props.theme.colors.border};
+    border-radius: 100%;
+    filter: blur(3px);
+    transform: scaleX(70%);
+    animation: animateShadowItem 3s linear infinite alternate;
+  }
+
+  & img {
     max-width: 320px;
     animation: animateItem 3s linear infinite alternate;
     position: relative;
-  }
-
-  & div {
-    margin-top: 40px;
-    border-radius: 0px 0px 40px 40px;
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 15px;
-      bottom: -16px;
-      left: 0;
-      right: 0;
-      z-index: 1;
-      background-color: ${(props) => props.theme.colors.border};
-      border-radius: 100%;
-      filter: blur(3px);
-      transform: scaleX(70%);
-      animation: animateShadowItem 3s linear infinite alternate;
-    }
   }
 
   @keyframes animateShadowItem {

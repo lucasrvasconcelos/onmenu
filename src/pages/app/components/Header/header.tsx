@@ -9,7 +9,7 @@ import {
 import { Profile } from './profile'
 import { SearchBar } from './searchBar'
 import { GetCompany } from '../../../../api/get-company'
-import { SkeletonGroup } from '../Popular/popular.styled'
+import { Skeleton } from '../Skeleton/skeleton.styled'
 
 interface HeaderProps {
   company?: GetCompany
@@ -29,7 +29,7 @@ export function Header({ company, isFetching }: HeaderProps) {
 
           <span>
             {isFetching ? (
-              <SkeletonGroup height="20px" width="100px" />
+              <Skeleton height="20px" width="100px" />
             ) : company?.error ? (
               company?.error.message
             ) : (

@@ -31,23 +31,21 @@ export const DialogContent = styled.div`
     color: ${(props) => props.theme.colors.black};
   }
 
-  @media (min-width: 400px) {
-    max-width: 400px;
+  @media (min-width: 600px) {
+    max-width: none;
+    width: 500px;
   }
 `
 export const ObservationContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin-top: 8px;
-  font-weight: bold;
+  margin-top: 12px;
+  font-weight: 500;
   & div {
-    font-size: 14px;
-
+    font-size: 12px;
     text-transform: lowercase;
     & span {
-      margin-left: 3px;
-      text-transform: capitalize;
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;

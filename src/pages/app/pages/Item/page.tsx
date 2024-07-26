@@ -6,6 +6,7 @@ import {
   CartApp,
   DetailsItem,
   FormContainer,
+  ImageItem,
   ItemDetailsContainer,
   ItensControl,
   MenuOptionsItem,
@@ -13,11 +14,14 @@ import {
 } from './page.styled'
 import { getProduct } from '../../../../api/get-product'
 import { useQuery } from '@tanstack/react-query'
-import { SkeletonGroup } from '../../components/Popular/popular.styled'
 import { useState } from 'react'
 import { ItensOrder } from '../../../../context/app.context'
 import { formatCurrency } from '../../../../utils/currency'
 import { ObservationDialog } from '../../components/Dialog/dialog'
+import {
+  Skeleton,
+  SkeletonGroup,
+} from '../../components/Skeleton/skeleton.styled'
 
 export function Item() {
   const { company, proid } = useParams<{ company?: string; proid: string }>()
@@ -58,7 +62,6 @@ export function Item() {
   }
 
   function addItemCart() {
-    console.log('Adicionado item')
     if (product?.data?.id) {
       const newItem: ItensOrder = {
         id: product?.data?.id,
@@ -98,7 +101,7 @@ export function Item() {
       </MenuOptionsItem>
       <DetailsItem>
         {isFetching ? (
-          <SkeletonGroup width="100px" height="24px" />
+          <Skeleton width="320px" height="80px" />
         ) : (
           <h1>
             {product?.data?.description
@@ -107,29 +110,42 @@ export function Item() {
           </h1>
         )}
 
-        {product?.data?.ProductIngredient && (
-          <ul>
-            {product?.data?.ProductIngredient.map((item) => {
-              return (
-                <li key={item.id} title={item.description}>
-                  {item.description}
-                </li>
-              )
-            })}
-          </ul>
+        {isFetching ? (
+          <SkeletonGroup display="flex" gap="4px">
+            <Skeleton height="20px" width="60px" />
+            <Skeleton height="20px" width="60px" />
+            <Skeleton height="20px" width="60px" />
+            <Skeleton height="20px" width="60px" />
+          </SkeletonGroup>
+        ) : (
+          product?.data?.ProductIngredient && (
+            <ul>
+              {product?.data?.ProductIngredient.map((item) => {
+                return (
+                  <li key={item.id} title={item.description}>
+                    {item.description}
+                  </li>
+                )
+              })}
+            </ul>
+          )
         )}
 
-        {product?.data?.imageUrl ? (
-          <div>
+        {isFetching ? (
+          <Skeleton width="300px" height="320px" margin="15px 0 0 0 " />
+        ) : product?.data?.imageUrl ? (
+          <ImageItem>
             <img src={product?.data?.imageUrl} alt="" />
-          </div>
+          </ImageItem>
         ) : (
           <p>Produto sem imagem</p>
         )}
       </DetailsItem>
       <form onSubmit={handleSubmit(addItemCart)}>
         <FormContainer>
-          {product?.data ? (
+          {isFetching ? (
+            <Skeleton width="320px" height="60px" />
+          ) : product?.data ? (
             <ItensControl>
               <SetQuantity>
                 <button
@@ -151,19 +167,27 @@ export function Item() {
               />
             </ItensControl>
           ) : (
-            <SkeletonGroup />
+            <Skeleton width="320px" height="200px" margin="15px 0px 0px 0px" />
           )}
 
           <CartApp>
             <div>
               <h4>Subtotal</h4>
               <span>
-                {formatCurrency(
-                  quantityInput * (product?.data?.saleValue || 0),
+                {isFetching ? (
+                  <Skeleton width="113px" height="40px" margin="8px 0 0 0" />
+                ) : (
+                  formatCurrency(
+                    quantityInput * (product?.data?.saleValue || 0),
+                  )
                 )}
               </span>
             </div>
-            <button type="submit">ADD</button>
+            {isFetching ? (
+              <Skeleton width="155px" height="42px" />
+            ) : (
+              <button type="submit">ADD</button>
+            )}
           </CartApp>
         </FormContainer>
       </form>

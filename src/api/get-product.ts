@@ -28,6 +28,13 @@ interface GetProductProps {
 }
 
 export async function getProduct({ company, proid }: GetProductProps) {
+  // api.interceptors.response.use(async (config) => {
+  //   await new Promise((resolve) => setTimeout(resolve, 10000))
+  //   return config
+  // })
+
+  await new Promise((resolve) => setTimeout(resolve, 10000))
+
   const { data } = await api.get<GetProduct>(`/app/${company}/product`, {
     params: {
       proid,
