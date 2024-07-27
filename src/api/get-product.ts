@@ -33,7 +33,7 @@ export async function getProduct({ company, proid }: GetProductProps) {
   //   return config
   // })
 
-  await new Promise((resolve) => setTimeout(resolve, 10000))
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 
   const { data } = await api.get<GetProduct>(`/app/${company}/product`, {
     params: {

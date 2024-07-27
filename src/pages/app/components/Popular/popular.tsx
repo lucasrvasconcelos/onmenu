@@ -25,14 +25,17 @@ export function Popular() {
       }),
   })
 
-  return activeGroup ? (
+  return (
     <PopularContainer>
-      <h3>{activeGroup.description}</h3>
+      <h3>{activeGroup ? activeGroup.description : 'Populares'}</h3>
       {!isFetching ? (
         <PopularItemGroup>
           {productsPopular?.data?.map((product) => {
             return (
-              <PopularItem key={product.id} to={`${product.id}`}>
+              <PopularItem
+                key={product.id}
+                to={`/app/${params.company}/${product.id}`}
+              >
                 <ImageBackground>
                   <img src={product.imageUrl} alt="" />
                 </ImageBackground>
@@ -60,53 +63,6 @@ export function Popular() {
           <Skeleton width="320px" height="220px" flex="1" margin="25px 0 0 0" />
         </SkeletonGroup>
       )}
-    </PopularContainer>
-  ) : (
-    <PopularContainer>
-      <h3>Populares</h3>
-      {!isFetching ? (
-        <PopularItemGroup>
-          {productsPopular?.data?.map((product) => {
-            return (
-              <PopularItem key={product.id} to={`${product.id}`}>
-                <ImageBackground>
-                  <img src={product.imageUrl} alt="" />
-                </ImageBackground>
-                <NameItemGroup>
-                  <div>
-                    <h4>{product.description}</h4>
-                  </div>
-                  <span>{formatCurrency(product.saleValue)}</span>
-                </NameItemGroup>
-              </PopularItem>
-            )
-          })}
-        </PopularItemGroup>
-      ) : (
-        <SkeletonGroup
-          display="flex"
-          flexDirection="row"
-          justify="center"
-          align="center"
-          gap="8px"
-        >
-          <Skeleton width="320px" height="220px" />
-          <Skeleton width="320px" height="220px" />
-          <Skeleton width="320px" height="220px" />
-        </SkeletonGroup>
-      )}
-
-      <SkeletonGroup
-        display="flex"
-        flexDirection="row"
-        justify="center"
-        align="center"
-        gap="8px"
-      >
-        <Skeleton width="320px" height="220px" />
-        <Skeleton width="320px" height="220px" />
-        <Skeleton width="320px" height="220px" />
-      </SkeletonGroup>
     </PopularContainer>
   )
 }

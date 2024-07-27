@@ -1,4 +1,4 @@
-import { Ellipsis, Heart, LayoutDashboard, User } from 'lucide-react'
+import { Ellipsis, Heart, LayoutDashboard, ReceiptText } from 'lucide-react'
 import { FooterContainer, LinkApp } from './footer.styled'
 import { useParams } from 'react-router-dom'
 
@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <FooterContainer>
       <LinkApp
-        to={`/app/${company}`}
+        to={`/app/${company}/home`}
         className={({ isActive, isPending }) =>
           isPending ? 'pending' : isActive ? 'active' : ''
         }
@@ -28,13 +28,13 @@ export function Footer() {
       </LinkApp>
 
       <LinkApp
-        to={`/app/${company}/account`}
+        to={`/app/${company}/orders`}
         className={({ isActive, isPending }) =>
           isPending ? 'pending' : isActive ? 'active' : ''
         }
       >
-        <User size={22} />
-        <span>Account</span>
+        <ReceiptText size={22} />
+        <span>Orders</span>
       </LinkApp>
 
       <LinkApp

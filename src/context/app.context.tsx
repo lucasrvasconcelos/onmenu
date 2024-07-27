@@ -14,6 +14,11 @@ export interface ItensOrder {
   observation?: string
 }
 
+export interface ItensForCompany {
+  company: string
+  itens: ItensOrder[]
+}
+
 // interface PreOrder {
 //   id: number
 //   itensOrder: ItensOrder[]
@@ -46,6 +51,8 @@ export function AppProvider({ children }: AppProviderProps) {
   })
 
   // const [preOrder, setPreOrder] = useState<PreOrder>()
+
+  console.log(itensOrder)
 
   function handleActiveGroup(group?: ActiveGroup) {
     setActiveGroup(group)

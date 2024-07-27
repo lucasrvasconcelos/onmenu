@@ -54,4 +54,5 @@ export const SkeletonGroup = styled.div<SkeletonGroupProps>`
   gap: ${(props) => props.gap};
   flex-wrap: ${(props) => props.nowrap};
   padding: 20px;
+  overflow: hidden;
 `

@@ -197,13 +197,15 @@ export const SetQuantity = styled.div`
 
 export const CartApp = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   position: fixed;
+  background-color: ${(props) => props.theme.colors.white};
+  z-index: 1;
   bottom: 0;
   width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px;
-  padding-bottom: 24px;
+  padding: 8px;
+  padding-bottom: 12px;
 
   & div {
     display: flex;
@@ -225,7 +227,8 @@ export const CartApp = styled.div`
 
   & button {
     background-color: ${(props) => props.theme.colors.primary};
-    padding: 8px 60px;
+    padding: 8px 34px;
+    height: 100%;
     border-radius: 6px;
     border: 0.5px solid ${(props) => props.theme.colors.white};
     text-align: center;

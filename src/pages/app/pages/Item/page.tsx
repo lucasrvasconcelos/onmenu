@@ -22,11 +22,13 @@ import {
   Skeleton,
   SkeletonGroup,
 } from '../../components/Skeleton/skeleton.styled'
+import { UseAppContext } from '../../../../context/use.app.context'
 
 export function Item() {
   const { company, proid } = useParams<{ company?: string; proid: string }>()
   const [quantityInput, setQuantityInput] = useState(1)
   const [observationDescription, setObservationDescription] = useState('')
+  const { addItemOrder } = UseAppContext()
 
   const { data: product, isFetching } = useQuery({
     queryKey: ['product'],
@@ -69,7 +71,8 @@ export function Item() {
         quantity: quantityInput,
         observation: observationDescription,
       }
-      console.log(newItem)
+
+      addItemOrder(newItem)
       setQuantityInput(1)
       setObservationDescription('')
     }
@@ -92,12 +95,16 @@ export function Item() {
   return (
     <ItemDetailsContainer>
       <MenuOptionsItem>
-        <Link to={`/app/${company}`}>
+        <Link to={`/app/${company}/home`}>
           <ArrowLeft size={35} />
         </Link>
-        <button>
-          <Heart size={35} strokeWidth={2} />
-        </button>
+        {isFetching ? (
+          <Skeleton width="35px" height="35px" />
+        ) : (
+          <button>
+            <Heart size={35} strokeWidth={2} />
+          </button>
+        )}
       </MenuOptionsItem>
       <DetailsItem>
         {isFetching ? (
@@ -186,7 +193,7 @@ export function Item() {
             {isFetching ? (
               <Skeleton width="155px" height="42px" />
             ) : (
-              <button type="submit">ADD</button>
+              <button type="submit">Adicionar</button>
             )}
           </CartApp>
         </FormContainer>

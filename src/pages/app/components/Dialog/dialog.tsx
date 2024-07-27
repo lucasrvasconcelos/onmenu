@@ -45,7 +45,7 @@ export function ObservationDialog({
                   <div>
                     {product.data?.description && (
                       <span>
-                        {quantity}x {product.data.description}
+                        {quantity} x {product.data.description}
                       </span>
                     )}
                   </div>
