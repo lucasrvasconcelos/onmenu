@@ -109,6 +109,7 @@ export const ImageItem = styled.div`
 
   & img {
     max-width: 320px;
+    height: 200px;
     animation: animateItem 3s linear infinite alternate;
     position: relative;
   }

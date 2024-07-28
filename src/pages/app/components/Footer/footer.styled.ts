@@ -25,6 +25,7 @@ export const LinkApp = styled(NavLink)`
   flex-direction: column;
   flex: 1;
   font-size: 12px;
+  position: relative;
 
   text-decoration: none;
 
@@ -34,4 +35,19 @@ export const LinkApp = styled(NavLink)`
     color: ${(props) => props.theme.colors.primary};
     font-weight: bold;
   }
+`
+export const NotifyOrderCount = styled.span`
+  color: ${(props) => props.theme.colors.white};
+  text-align: center;
+  height: 14px;
+  padding: 0px 4px;
+  font-weight: bold;
+  font-size: 10px;
+  border-radius: 40%;
+  overflow: hidden;
+
+  background-color: ${(props) => props.theme.colors.primary};
+  position: absolute;
+  top: -5px;
+  transform: translateX(8px);
 `

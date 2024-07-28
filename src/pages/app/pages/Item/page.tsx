@@ -15,7 +15,7 @@ import {
 import { getProduct } from '../../../../api/get-product'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { ItensOrder } from '../../../../context/app.context'
+import { ItensForCompany } from '../../../../context/app.context'
 import { formatCurrency } from '../../../../utils/currency'
 import { ObservationDialog } from '../../components/Dialog/dialog'
 import {
@@ -23,6 +23,7 @@ import {
   SkeletonGroup,
 } from '../../components/Skeleton/skeleton.styled'
 import { UseAppContext } from '../../../../context/use.app.context'
+import { toast } from 'sonner'
 
 export function Item() {
   const { company, proid } = useParams<{ company?: string; proid: string }>()
@@ -39,20 +40,7 @@ export function Item() {
       }),
   })
 
-  // const schema = z.object({
-  //   // quantity: z.number().min(1),
-  // })
-
-  // type AddItemCartType = z.infer<typeof schema>
-
-  const {
-    // register,
-    handleSubmit,
-    // watch,
-    // formState: { errors },
-  } = useForm({
-    // resolver: zodResolver(schema),
-  })
+  const { handleSubmit } = useForm()
 
   function handleDecreaseQuantity(quantity: number) {
     setQuantityInput((state) => {
@@ -65,16 +53,29 @@ export function Item() {
 
   function addItemCart() {
     if (product?.data?.id) {
-      const newItem: ItensOrder = {
-        id: product?.data?.id,
-        description: product?.data?.description,
-        quantity: quantityInput,
-        observation: observationDescription,
+      const newItem: ItensForCompany = {
+        company,
+        date: String(new Date()),
+        itens: [
+          {
+            id: product?.data?.id,
+            description: product?.data?.description,
+            quantity: quantityInput,
+            observation: observationDescription,
+          },
+        ],
       }
-
-      addItemOrder(newItem)
-      setQuantityInput(1)
-      setObservationDescription('')
+      toast.success(
+        `Adicionado: ${quantityInput} x ${product.data.description}`,
+      )
+      try {
+        addItemOrder(newItem)
+        setQuantityInput(1)
+        setObservationDescription('')
+      } catch (error) {
+        console.log(error)
+        toast.error(`Erro ao adicionar produto`)
+      }
     }
   }
 
@@ -139,7 +140,7 @@ export function Item() {
         )}
 
         {isFetching ? (
-          <Skeleton width="300px" height="320px" margin="15px 0 0 0 " />
+          <Skeleton width="320px" height="200px" margin="15px 0 0 0 " />
         ) : product?.data?.imageUrl ? (
           <ImageItem>
             <img src={product?.data?.imageUrl} alt="" />

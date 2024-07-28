@@ -15,23 +15,16 @@ export interface ItensOrder {
 }
 
 export interface ItensForCompany {
-  company: string
+  company?: string
+  date: string
   itens: ItensOrder[]
 }
 
-// interface PreOrder {
-//   id: number
-//   itensOrder: ItensOrder[]
-//   company: string
-//   createAt: Date
-//   status: string
-// }
-
 interface AppContextInterface {
   activeGroup?: ActiveGroup
-  itensOrder: ItensOrder[]
+  itensOrder: ItensForCompany[]
   handleActiveGroup: (group?: ActiveGroup) => void
-  addItemOrder: (item: ItensOrder) => void
+  addItemOrder: (item: ItensForCompany) => void
 }
 
 export const AppContext = createContext({} as AppContextInterface)
@@ -44,13 +37,10 @@ export function AppProvider({ children }: AppProviderProps) {
   const [activeGroup, setActiveGroup] = useState<ActiveGroup | undefined>(
     undefined,
   )
-
-  const [itensOrder, setItensOrder] = useState<ItensOrder[]>(() => {
+  const [itensOrder, setItensOrder] = useState<ItensForCompany[]>(() => {
     const storedItensOrder = localStorage.getItem('itensOrder')
     return storedItensOrder ? JSON.parse(storedItensOrder) : []
   })
-
-  // const [preOrder, setPreOrder] = useState<PreOrder>()
 
   console.log(itensOrder)
 
@@ -58,9 +48,28 @@ export function AppProvider({ children }: AppProviderProps) {
     setActiveGroup(group)
   }
 
-  function addItemOrder(item: ItensOrder) {
+  function addItemOrder(newItemOrder: ItensForCompany) {
     setItensOrder((prevItensOrder) => {
-      const updatedItensOrder = [...prevItensOrder, item]
+      const companyIndex = prevItensOrder.findIndex(
+        (item) => item.company === newItemOrder.company,
+      )
+
+      let updatedItensOrder
+
+      if (companyIndex !== -1) {
+        updatedItensOrder = prevItensOrder.map((item, index) => {
+          if (index === companyIndex) {
+            return {
+              ...item,
+              itens: [...item.itens, ...newItemOrder.itens],
+            }
+          }
+          return item
+        })
+      } else {
+        updatedItensOrder = [...prevItensOrder, newItemOrder]
+      }
+
       localStorage.setItem('itensOrder', JSON.stringify(updatedItensOrder))
       return updatedItensOrder
     })

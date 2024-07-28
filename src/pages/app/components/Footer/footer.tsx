@@ -1,9 +1,11 @@
 import { Ellipsis, Heart, LayoutDashboard, ReceiptText } from 'lucide-react'
-import { FooterContainer, LinkApp } from './footer.styled'
+import { FooterContainer, LinkApp, NotifyOrderCount } from './footer.styled'
 import { useParams } from 'react-router-dom'
+import { UseAppContext } from '../../../../context/use.app.context'
 
 export function Footer() {
   const { company } = useParams()
+  const { itensOrder } = UseAppContext()
 
   return (
     <FooterContainer>
@@ -35,6 +37,9 @@ export function Footer() {
       >
         <ReceiptText size={22} />
         <span>Orders</span>
+        {itensOrder.length > 0 && (
+          <NotifyOrderCount>{itensOrder.length}</NotifyOrderCount>
+        )}
       </LinkApp>
 
       <LinkApp
