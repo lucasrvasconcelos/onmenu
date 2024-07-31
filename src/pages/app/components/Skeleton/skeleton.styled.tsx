@@ -4,6 +4,7 @@ interface SkeletonProps {
   width: string
   height: string
   animationVelocity?: number
+  padding?: string
   margin?: string
   flex?: string
 }
@@ -17,7 +18,7 @@ export const Skeleton = styled.div<SkeletonProps>`
   height: ${(props) => props.height};
   margin: ${(props) => props.margin};
 
-  padding: 10px;
+  padding: ${(props) => (props.padding ? props.padding : '10px')};
   cursor: pointer;
   opacity: 1;
   border-radius: 8px;
@@ -53,6 +54,6 @@ export const SkeletonGroup = styled.div<SkeletonGroupProps>`
   align-items: ${(props) => props.align};
   gap: ${(props) => props.gap};
   flex-wrap: ${(props) => props.nowrap};
+  flex-wrap: nowrap;
   padding: 20px;
-  overflow: hidden;
 `

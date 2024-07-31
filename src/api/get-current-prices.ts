@@ -31,6 +31,8 @@ export async function getCurrentPrices({
   company,
   itens,
 }: GetCurrentPricesProps) {
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
   const { data } = await api.post<GetCurrentPrices>(`/app/get-current-prices`, {
     company,
     itens,

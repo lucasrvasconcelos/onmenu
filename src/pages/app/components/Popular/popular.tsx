@@ -56,6 +56,7 @@ export function Popular() {
           flexDirection="row"
           justify="center"
           align="center"
+          nowrap="wrap"
           gap="8px"
         >
           <Skeleton width="320px" height="220px" flex="1" margin="25px 0 0 0" />

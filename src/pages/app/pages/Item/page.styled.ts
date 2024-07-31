@@ -57,6 +57,14 @@ export const DetailsItem = styled.div`
 
   & h1 {
     text-transform: capitalize;
+    text-align: center;
+    font-size: 24px;
+  }
+
+  @media (min-width: 400px) {
+    & h1 {
+      font-size: 30px;
+    }
   }
 
   & ul {
@@ -205,7 +213,7 @@ export const CartApp = styled.div`
   z-index: 1;
   bottom: 0;
   width: 100%;
-  padding: 8px;
+  padding: 8px 15px;
   padding-bottom: 12px;
 
   & div {

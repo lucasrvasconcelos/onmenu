@@ -25,6 +25,7 @@ interface AppContextInterface {
   itensOrder: ItensForCompany[]
   handleActiveGroup: (group?: ActiveGroup) => void
   addItemOrder: (item: ItensForCompany) => void
+  deleteOrder: (cnpj: string) => void
 }
 
 export const AppContext = createContext({} as AppContextInterface)
@@ -42,10 +43,16 @@ export function AppProvider({ children }: AppProviderProps) {
     return storedItensOrder ? JSON.parse(storedItensOrder) : []
   })
 
-  console.log(itensOrder)
-
   function handleActiveGroup(group?: ActiveGroup) {
     setActiveGroup(group)
+  }
+
+  function deleteOrder(cnpj: string) {
+    setItensOrder((state) => {
+      const filteredItensOrder = state.filter((item) => item.company !== cnpj)
+      localStorage.setItem('itensOrder', JSON.stringify(filteredItensOrder))
+      return filteredItensOrder
+    })
   }
 
   function addItemOrder(newItemOrder: ItensForCompany) {
@@ -81,6 +88,7 @@ export function AppProvider({ children }: AppProviderProps) {
         activeGroup,
         itensOrder,
         handleActiveGroup,
+        deleteOrder,
         addItemOrder,
       }}
     >
