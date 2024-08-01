@@ -1,39 +1,75 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { ButtonAction } from './order-pending-container.styled'
 import { Trash2 } from 'lucide-react'
-import { DeleteOrderDialogOverlay } from './delete-order-pending.styled'
+import {
+  BtnCancelDeleteOrder,
+  BtnDeleteOrder,
+  DeleteOrderAction,
+  DeleteOrderDialogOverlay,
+  DialogContentContainer,
+} from './delete-order-pending.styled'
 import { UseAppContext } from '../../../../context/use.app.context'
+import { toast } from 'sonner'
 
 interface DeleteOrderPendingProps {
-  cnpj: string
+  company?: {
+    id: number
+    cnpj: string
+    socialReason: string
+    fantasyName: string
+    tag: string | null
+  }
 }
 
-export function DeleteOrderPending({ cnpj }: DeleteOrderPendingProps) {
+export function DeleteOrderPending({ company }: DeleteOrderPendingProps) {
   const { deleteOrder } = UseAppContext()
 
-  function handleDeleteOrderPending(cnpj: string) {
+  function handleDeleteOrderPending(cnpj?: string) {
+    if (!cnpj) {
+      return
+    }
+
+    toast.error(`Pedido da empresa ${company?.fantasyName} foi excluido`)
     deleteOrder(cnpj)
   }
 
   return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <ButtonAction status="red">
-          <Trash2 size={24} />
-        </ButtonAction>
-      </Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Overlay asChild>
-          <DeleteOrderDialogOverlay>
-            <Dialog.Content>
-              <span>conteudo</span>
-              <button onClick={() => handleDeleteOrderPending(cnpj)}>
-                Confirmar
-              </button>
-            </Dialog.Content>
-          </DeleteOrderDialogOverlay>
-        </Dialog.Overlay>
-      </Dialog.Portal>
-    </Dialog.Root>
+    company && (
+      <Dialog.Root>
+        <Dialog.Trigger asChild>
+          <ButtonAction status="red">
+            <Trash2 size={24} />
+          </ButtonAction>
+        </Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Overlay asChild>
+            <DeleteOrderDialogOverlay>
+              <Dialog.Content asChild>
+                <DialogContentContainer>
+                  <Dialog.Description>
+                    Confirma exclusão do pedido?
+                  </Dialog.Description>
+
+                  <DeleteOrderAction>
+                    <Dialog.Close asChild>
+                      <BtnCancelDeleteOrder
+                        onClick={() => handleDeleteOrderPending()}
+                      >
+                        Não
+                      </BtnCancelDeleteOrder>
+                    </Dialog.Close>
+                    <BtnDeleteOrder
+                      onClick={() => handleDeleteOrderPending(company.cnpj)}
+                    >
+                      Sim
+                    </BtnDeleteOrder>
+                  </DeleteOrderAction>
+                </DialogContentContainer>
+              </Dialog.Content>
+            </DeleteOrderDialogOverlay>
+          </Dialog.Overlay>
+        </Dialog.Portal>
+      </Dialog.Root>
+    )
   )
 }

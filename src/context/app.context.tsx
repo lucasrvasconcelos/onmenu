@@ -7,7 +7,7 @@ export interface ActiveGroup {
   groupSearchDescription: string
 }
 
-export interface ItensOrder {
+export interface ItensOrderType {
   id: number
   description: string
   quantity: number
@@ -17,7 +17,7 @@ export interface ItensOrder {
 export interface ItensForCompany {
   company?: string
   date: string
-  itens: ItensOrder[]
+  itens: ItensOrderType[]
 }
 
 interface AppContextInterface {

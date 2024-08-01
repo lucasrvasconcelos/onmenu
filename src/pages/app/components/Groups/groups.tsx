@@ -102,18 +102,16 @@ export function Groups() {
         )
       ) : (
         <SkeletonGroup
+          width="100%"
           display="flex"
           flexDirection="row"
           gap="18px"
           nowrap="nowrap"
         >
-          <Skeleton width="180px" height="200px" />
-          <Skeleton width="180px" height="200px" />
-          <Skeleton width="180px" height="200px" />
-          <Skeleton width="180px" height="200px" />
-          <Skeleton width="180px" height="200px" />
-          <Skeleton width="180px" height="200px" />
-          <Skeleton width="180px" height="200px" />
+          <Skeleton flex="1" height="200px" padding="0px" />
+          <Skeleton flex="1" height="200px" padding="0px" />
+          <Skeleton flex="1" height="200px" padding="0px" />
+          <Skeleton flex="1" height="200px" padding="0px" />
         </SkeletonGroup>
       )}
     </CategoryContainer>

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { ItensForCompany } from '../../../../context/app.context'
+import { ItensOrderType } from '../../../../context/app.context'
 import {
   ButtonAction,
   OrderButtonAction,
@@ -16,7 +16,11 @@ import { Check, ShoppingBag } from 'lucide-react'
 import { DeleteOrderPending } from './delete-order-pending'
 
 interface OrderPendingContainerProps {
-  itemOrder: ItensForCompany
+  itemOrder: {
+    company?: string
+    date: string
+    itens: ItensOrderType[]
+  }
 }
 export function OrderPendingContainer({
   itemOrder,
@@ -75,7 +79,7 @@ export function OrderPendingContainer({
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
-            <DeleteOrderPending cnpj={company || 0} />
+            <DeleteOrderPending company={detailsItens?.data.company} />
           )}
 
           {isFetching ? (

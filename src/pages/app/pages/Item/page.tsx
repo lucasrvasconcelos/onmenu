@@ -1,9 +1,10 @@
-import { ArrowLeft, Heart, Minus, Plus } from 'lucide-react'
+import { ArrowLeft, Heart, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 import {
   CartApp,
+  CartAppAction,
   DetailsItem,
   FormContainer,
   ImageItem,
@@ -26,10 +27,10 @@ import { UseAppContext } from '../../../../context/use.app.context'
 import { toast } from 'sonner'
 
 export function Item() {
-  const { company, proid } = useParams<{ company?: string; proid: string }>()
+  const { company, proid } = useParams<{ company: string; proid: string }>()
   const [quantityInput, setQuantityInput] = useState(1)
   const [observationDescription, setObservationDescription] = useState('')
-  const { addItemOrder } = UseAppContext()
+  const { addItemOrder, itensOrder } = UseAppContext()
 
   const { data: product, isFetching } = useQuery({
     queryKey: ['product'],
@@ -73,7 +74,6 @@ export function Item() {
         setQuantityInput(1)
         setObservationDescription('')
       } catch (error) {
-        console.log(error)
         toast.error(`Erro ao adicionar produto`)
       }
     }
@@ -194,7 +194,14 @@ export function Item() {
             {isFetching ? (
               <Skeleton width="155px" height="42px" />
             ) : (
-              <button type="submit">Adicionar</button>
+              <CartAppAction>
+                {itensOrder.length > 0 && (
+                  <Link to={`/app/${company}/orders`}>
+                    <ShoppingBag size={26} />
+                  </Link>
+                )}
+                <button type="submit">Adicionar</button>
+              </CartAppAction>
             )}
           </CartApp>
         </FormContainer>

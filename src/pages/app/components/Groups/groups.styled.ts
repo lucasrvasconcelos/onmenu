@@ -8,7 +8,6 @@ export const CategoryContainer = styled.div`
   gap: 8px;
   width: 100%;
   position: relative;
-  overflow: hidden;
 `
 
 export const CleanFilters = styled.button`

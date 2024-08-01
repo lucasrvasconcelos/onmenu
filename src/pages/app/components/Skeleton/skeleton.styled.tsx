@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface SkeletonProps {
-  width: string
+  width?: string
   height: string
   animationVelocity?: number
   padding?: string
@@ -11,9 +11,9 @@ interface SkeletonProps {
 
 export const Skeleton = styled.div<SkeletonProps>`
   content: ' ';
+  min-width: 20%;
   user-select: none;
   display: flex;
-  gap: 10px;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   margin: ${(props) => props.margin};
@@ -45,6 +45,7 @@ interface SkeletonGroupProps {
   align?: string
   gap?: string
   nowrap?: string
+  width?: string
 }
 
 export const SkeletonGroup = styled.div<SkeletonGroupProps>`
@@ -54,6 +55,6 @@ export const SkeletonGroup = styled.div<SkeletonGroupProps>`
   align-items: ${(props) => props.align};
   gap: ${(props) => props.gap};
   flex-wrap: ${(props) => props.nowrap};
-  flex-wrap: nowrap;
   padding: 20px;
+  width: ${(props) => props.width && props.width};
 `
