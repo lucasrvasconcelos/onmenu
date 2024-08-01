@@ -1,6 +1,6 @@
 import { UseAppContext } from '../../../../context/use.app.context'
 import { OrderPendingContainer } from '../../components/DetailsOrder/order-pending-container'
-import { OrdersContainer, OrdersPending } from './page.styled'
+import { NotFindOrders, OrdersContainer, OrdersPending } from './page.styled'
 
 export function Orders() {
   const { itensOrder } = UseAppContext()
@@ -8,7 +8,9 @@ export function Orders() {
   return (
     <OrdersContainer>
       <OrdersPending>
-        <span>Seus pedidos</span>
+        <div>
+          <span>Seus pedidos</span>
+        </div>
 
         {itensOrder.map((itemOrder) => {
           return (
@@ -18,6 +20,12 @@ export function Orders() {
             />
           )
         })}
+
+        {itensOrder.length === 0 && (
+          <NotFindOrders>
+            <span>Nenhum pedido encontrado 😓</span>
+          </NotFindOrders>
+        )}
       </OrdersPending>
     </OrdersContainer>
   )

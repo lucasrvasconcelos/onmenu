@@ -13,9 +13,26 @@ export const OrdersPending = styled.div`
   align-items: center;
   flex-direction: column;
 
-  & > span {
-    width: 100%;
+  & > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 320px;
+  }
+
+  & > div > span {
     text-align: left;
     font-weight: bold;
+  }
+`
+
+export const NotFindOrders = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+
+  & span {
+    font-weight: 300 !important;
   }
 `

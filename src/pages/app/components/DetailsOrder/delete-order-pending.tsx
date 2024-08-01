@@ -1,24 +1,16 @@
-import * as Dialog from '@radix-ui/react-dialog'
+import * as Popover from '@radix-ui/react-popover'
 import { ButtonAction } from './order-pending-container.styled'
 import { Trash2 } from 'lucide-react'
 import {
-  BtnCancelDeleteOrder,
-  BtnDeleteOrder,
   DeleteOrderAction,
-  DeleteOrderDialogOverlay,
-  DialogContentContainer,
+  PopoverContent,
 } from './delete-order-pending.styled'
 import { UseAppContext } from '../../../../context/use.app.context'
 import { toast } from 'sonner'
+import { ButtonOrderAction } from './button-order'
 
 interface DeleteOrderPendingProps {
-  company?: {
-    id: number
-    cnpj: string
-    socialReason: string
-    fantasyName: string
-    tag: string | null
-  }
+  company: string
 }
 
 export function DeleteOrderPending({ company }: DeleteOrderPendingProps) {
@@ -29,47 +21,52 @@ export function DeleteOrderPending({ company }: DeleteOrderPendingProps) {
       return
     }
 
-    toast.error(`Pedido da empresa ${company?.fantasyName} foi excluido`)
+    toast.error(`Pedido excluido com sucesso`)
     deleteOrder(cnpj)
   }
 
   return (
     company && (
-      <Dialog.Root>
-        <Dialog.Trigger asChild>
+      <Popover.Root>
+        <Popover.Trigger asChild>
           <ButtonAction status="red">
             <Trash2 size={24} />
           </ButtonAction>
-        </Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Overlay asChild>
-            <DeleteOrderDialogOverlay>
-              <Dialog.Content asChild>
-                <DialogContentContainer>
-                  <Dialog.Description>
-                    Confirma exclusão do pedido?
-                  </Dialog.Description>
+        </Popover.Trigger>
 
-                  <DeleteOrderAction>
-                    <Dialog.Close asChild>
-                      <BtnCancelDeleteOrder
-                        onClick={() => handleDeleteOrderPending()}
-                      >
-                        Não
-                      </BtnCancelDeleteOrder>
-                    </Dialog.Close>
-                    <BtnDeleteOrder
-                      onClick={() => handleDeleteOrderPending(company.cnpj)}
-                    >
-                      Sim
-                    </BtnDeleteOrder>
-                  </DeleteOrderAction>
-                </DialogContentContainer>
-              </Dialog.Content>
-            </DeleteOrderDialogOverlay>
-          </Dialog.Overlay>
-        </Dialog.Portal>
-      </Dialog.Root>
+        <Popover.Portal>
+          <Popover.Content
+            sideOffset={8}
+            collisionPadding={{
+              right: 20,
+              left: 20,
+            }}
+          >
+            <PopoverContent>
+              <span>Confirma exclusão?</span>
+              <DeleteOrderAction>
+                <ButtonOrderAction
+                  color="white"
+                  onClick={() => handleDeleteOrderPending(company)}
+                >
+                  Sim
+                </ButtonOrderAction>
+
+                <Popover.Close asChild>
+                  <ButtonOrderAction
+                    color="red"
+                    onClick={() => handleDeleteOrderPending()}
+                  >
+                    Não
+                  </ButtonOrderAction>
+                </Popover.Close>
+              </DeleteOrderAction>
+
+              <Popover.Arrow className="popoverArrow" />
+            </PopoverContent>
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
     )
   )
 }

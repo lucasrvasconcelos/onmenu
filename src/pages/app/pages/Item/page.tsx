@@ -55,7 +55,7 @@ export function Item() {
   function addItemCart() {
     if (product?.data?.id) {
       const newItem: ItensForCompany = {
-        company,
+        company: company || '0000000000001',
         date: String(new Date()),
         itens: [
           {
@@ -92,6 +92,10 @@ export function Item() {
       return state
     })
   }
+
+  const lengthOrderCompany = itensOrder.find((item) => {
+    return item.company === company
+  })
 
   return (
     <ItemDetailsContainer>
@@ -195,7 +199,7 @@ export function Item() {
               <Skeleton width="155px" height="42px" />
             ) : (
               <CartAppAction>
-                {itensOrder.length > 0 && (
+                {lengthOrderCompany && (
                   <Link to={`/app/${company}/orders`}>
                     <ShoppingBag size={26} />
                   </Link>

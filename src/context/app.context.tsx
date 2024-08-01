@@ -15,7 +15,7 @@ export interface ItensOrderType {
 }
 
 export interface ItensForCompany {
-  company?: string
+  company: string
   date: string
   itens: ItensOrderType[]
 }

@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-export const OrderPendingContainerWrapper = styled.div``
+export const OrderPendingContainerWrapper = styled.div`
+  margin-top: 10px;
+`
 
 export const OrderItemPending = styled.div`
   display: flex;

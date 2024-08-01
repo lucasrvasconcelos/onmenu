@@ -12,12 +12,13 @@ import { getCurrentPrices } from '../../../../api/get-current-prices'
 import { Skeleton } from '../Skeleton/skeleton.styled'
 import { distanceDate } from '../../../../utils/distanceDate'
 import { formatCurrency } from '../../../../utils/currency'
-import { Check, ShoppingBag } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { DeleteOrderPending } from './delete-order-pending'
+import { UpdateOrderPending } from './update-order-pending'
 
 interface OrderPendingContainerProps {
   itemOrder: {
-    company?: string
+    company: string
     date: string
     itens: ItensOrderType[]
   }
@@ -71,15 +72,13 @@ export function OrderPendingContainer({
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
-            <ButtonAction status="yellow">
-              <ShoppingBag size={24} />
-            </ButtonAction>
+            <UpdateOrderPending />
           )}
 
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
-            <DeleteOrderPending company={detailsItens?.data.company} />
+            <DeleteOrderPending company={company} />
           )}
 
           {isFetching ? (

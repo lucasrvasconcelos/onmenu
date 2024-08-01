@@ -17,9 +17,9 @@ export const Skeleton = styled.div<SkeletonProps>`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   margin: ${(props) => props.margin};
+  cursor: auto;
 
   padding: ${(props) => (props.padding ? props.padding : '10px')};
-  cursor: pointer;
   opacity: 1;
   border-radius: 8px;
   background-color: ${(props) => props.theme.colors.border};
