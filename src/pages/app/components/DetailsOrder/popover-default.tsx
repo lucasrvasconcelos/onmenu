@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
+import { PopoverArrow } from './popover-default.styled'
 
 export const Popover = PopoverPrimitive.Root
 export const PopoverTrigger = PopoverPrimitive.Trigger
@@ -14,9 +15,9 @@ export const PopoverContent = React.forwardRef<
 >(({ children, ...props }, forwardedRef) => {
   return (
     <PopoverPrimitive.Portal>
-      <PopoverPrimitive.Content sideOffset={5} {...props} ref={forwardedRef}>
+      <PopoverPrimitive.Content sideOffset={8} {...props} ref={forwardedRef}>
         {children}
-        <PopoverPrimitive.Arrow />
+        <PopoverArrow />
       </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   )

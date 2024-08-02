@@ -23,6 +23,18 @@ interface OrderPendingContainerProps {
     itens: ItensOrderType[]
   }
 }
+
+interface Item {
+  nomeProduct: string
+  quantity: number
+  subtotal: number
+}
+
+interface ProductData {
+  total: number
+  itens: Item[]
+}
+
 export function OrderPendingContainer({
   itemOrder,
 }: OrderPendingContainerProps) {
@@ -33,15 +45,32 @@ export function OrderPendingContainer({
     queryFn: () => getCurrentPrices({ company, itens }),
   })
 
-  const subtotal = itens.reduce((acc, item) => {
-    const product = detailsItens?.data.prices.find((product) => {
-      if (item.id === product.id) {
-        return product
-      }
-      return false
-    })
-    return acc + (product?.saleValue || 0) * item.quantity
-  }, 0)
+  let productData
+
+  if (detailsItens) {
+    productData = itens.reduce<ProductData>(
+      (acc, item) => {
+        const product = detailsItens?.data.prices.find(
+          (product) => item.id === product.id,
+        )
+
+        acc.total += (product?.saleValue || 0) * item.quantity
+
+        acc.itens.push({
+          nomeProduct: item.description,
+          quantity: item.quantity,
+          subtotal: (product?.saleValue || 0) * item.quantity,
+        })
+
+        return acc
+      },
+      {
+        total: 0,
+        itens: [],
+      },
+    )
+    console.log(productData)
+  }
 
   return (
     <OrderPendingContainerWrapper>
@@ -64,7 +93,7 @@ export function OrderPendingContainer({
           {isFetching ? (
             <Skeleton width="80px" height="25px" padding="0" margin="2px 0" />
           ) : (
-            <span>{formatCurrency(subtotal || 0)}</span>
+            <span>{formatCurrency(productData?.total || 0)}</span>
           )}
         </OrderItemDetails>
 
