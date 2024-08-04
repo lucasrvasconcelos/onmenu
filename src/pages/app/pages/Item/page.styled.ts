@@ -234,37 +234,15 @@ export const CartApp = styled.div`
     }
   }
 `
-export const CartAppAction = styled.div`
-  display: flex;
-  justify-content: center !important;
-  align-items: stretch !important;
-  flex-direction: row !important;
-  gap: 4px;
-  height: 100%;
-
-  & a {
-    background-color: ${(props) => props.theme.colors.yellow};
-    border-radius: 6px;
-    color: ${(props) => props.theme.colors.white};
-    cursor: pointer;
-    line-height: 0px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 4px;
-  }
-
-  & button {
-    background-color: ${(props) => props.theme.colors.primary};
-    padding: 8px 34px;
-    border-radius: 6px;
-    border: 0.5px solid ${(props) => props.theme.colors.white};
-    text-align: center;
-    font-size: 15px;
-    color: ${(props) => props.theme.colors.white};
-    font-weight: bold;
-    letter-spacing: 1px;
-    cursor: pointer;
-  }
+export const AddItemButton = styled.button`
+  background-color: ${(props) => props.theme.colors.primary};
+  padding: 8px 34px;
+  border-radius: 6px;
+  border: 0.5px solid ${(props) => props.theme.colors.white};
+  text-align: center;
+  font-size: 15px;
+  color: ${(props) => props.theme.colors.white};
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
 `

@@ -5,6 +5,7 @@ export const DefaultTheme = {
     attention: '#f1c40f',
     background: '#f1f1f1',
     black: 'black',
+    blue: '#0973DC',
     white: 'white',
     green: '#6ACD49',
     yellow: '#F6BE45',

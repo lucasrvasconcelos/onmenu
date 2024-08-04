@@ -15,7 +15,15 @@ export const PopoverContent = React.forwardRef<
 >(({ children, ...props }, forwardedRef) => {
   return (
     <PopoverPrimitive.Portal>
-      <PopoverPrimitive.Content sideOffset={8} {...props} ref={forwardedRef}>
+      <PopoverPrimitive.Content
+        sideOffset={8}
+        {...props}
+        ref={forwardedRef}
+        collisionPadding={{
+          right: 20,
+          left: 20,
+        }}
+      >
         {children}
         <PopoverArrow />
       </PopoverPrimitive.Content>

@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react'
+import { Item } from '../pages/app/components/DetailsOrder/order-pending'
 
 export interface ActiveGroup {
   id: number
@@ -7,7 +8,8 @@ export interface ActiveGroup {
   groupSearchDescription: string
 }
 
-export interface ItensOrderType {
+export interface ItemOrderType {
+  aplicationId: string
   id: number
   description: string
   quantity: number
@@ -17,7 +19,24 @@ export interface ItensOrderType {
 export interface ItensForCompany {
   company: string
   date: string
-  itens: ItensOrderType[]
+  itens: ItemOrderType[]
+}
+
+export interface UpdateQuantityItemProps {
+  company: string
+  product: Item
+  quantity: number
+}
+
+export interface UpdateObservationItemProps {
+  company: string
+  product: Item
+  observation?: string
+}
+
+export interface DeleteItemOrder {
+  company: string
+  product: Item
 }
 
 interface AppContextInterface {
@@ -26,6 +45,17 @@ interface AppContextInterface {
   handleActiveGroup: (group?: ActiveGroup) => void
   addItemOrder: (item: ItensForCompany) => void
   deleteOrder: (cnpj: string) => void
+  updateQuantityItem: ({
+    company,
+    product,
+    quantity,
+  }: UpdateQuantityItemProps) => void
+  updateObservationItem: ({
+    company,
+    product,
+    observation,
+  }: UpdateObservationItemProps) => void
+  deleteItemOrder: ({ company, product }: DeleteItemOrder) => void
 }
 
 export const AppContext = createContext({} as AppContextInterface)
@@ -82,6 +112,104 @@ export function AppProvider({ children }: AppProviderProps) {
     })
   }
 
+  function updateQuantityItem({
+    company,
+    product,
+    quantity,
+  }: UpdateQuantityItemProps) {
+    setItensOrder((state) => {
+      const updateItem = state.map((item) => {
+        if (item.company === company) {
+          return {
+            ...item,
+            itens: item.itens.map((item) => {
+              if (item.aplicationId === product.aplicationId) {
+                const newQuantity =
+                  item.quantity + quantity < 1 ? 1 : item.quantity + quantity
+                return {
+                  ...item,
+                  quantity: newQuantity,
+                }
+              }
+              return item
+            }),
+          }
+        }
+        return item
+      })
+
+      localStorage.setItem('itensOrder', JSON.stringify(updateItem))
+      return updateItem
+    })
+  }
+
+  function updateObservationItem({
+    company,
+    product,
+    observation,
+  }: UpdateObservationItemProps) {
+    setItensOrder((state) => {
+      const updateItem = state.map((item) => {
+        if (item.company === company) {
+          return {
+            ...item,
+            itens: item.itens.map((item) => {
+              if (item.aplicationId === product.aplicationId) {
+                return {
+                  ...item,
+                  observation,
+                }
+              }
+              return item
+            }),
+          }
+        }
+        return item
+      })
+
+      localStorage.setItem('itensOrder', JSON.stringify(updateItem))
+      return updateItem
+    })
+  }
+
+  const deleteItemOrder = ({ company, product }: DeleteItemOrder) => {
+    let updateItem
+    setItensOrder((state) => {
+      updateItem = state.map((item) => {
+        if (item.company === company) {
+          return {
+            ...item,
+            itens: item.itens.filter((item) => {
+              if (item.aplicationId !== product.aplicationId) {
+                return {
+                  ...item,
+                }
+              }
+              return false
+            }),
+          }
+        }
+
+        return item
+      })
+
+      const lengthItemCompany = updateItem.find(
+        (item) => item.company === company,
+      )
+
+      if (lengthItemCompany?.itens.length === 0) {
+        const filteredItensOrder = state.filter(
+          (item) => item.company !== company,
+        )
+        localStorage.setItem('itensOrder', JSON.stringify(filteredItensOrder))
+        return filteredItensOrder
+      }
+
+      localStorage.setItem('itensOrder', JSON.stringify(updateItem))
+      return updateItem
+    })
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -90,6 +218,9 @@ export function AppProvider({ children }: AppProviderProps) {
         handleActiveGroup,
         deleteOrder,
         addItemOrder,
+        updateQuantityItem,
+        updateObservationItem,
+        deleteItemOrder,
       }}
     >
       {children}

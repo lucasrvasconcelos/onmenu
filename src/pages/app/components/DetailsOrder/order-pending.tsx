@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { ItensOrderType } from '../../../../context/app.context'
+
 import {
   ButtonAction,
   OrderButtonAction,
@@ -7,7 +7,7 @@ import {
   OrderItemPending,
   OrderPendingContainerWrapper,
   OrderStatus,
-} from './order-pending-container.styled'
+} from './order-pending.styled'
 import { getCurrentPrices } from '../../../../api/get-current-prices'
 import { Skeleton } from '../Skeleton/skeleton.styled'
 import { distanceDate } from '../../../../utils/distanceDate'
@@ -15,19 +15,24 @@ import { formatCurrency } from '../../../../utils/currency'
 import { Check } from 'lucide-react'
 import { DeleteOrderPending } from './delete-order-pending'
 import { UpdateOrderPending } from './update-order-pending'
+import { ItemOrderType } from '../../../../context/app.context'
 
-interface OrderPendingContainerProps {
+export interface OrderPendingProps {
   itemOrder: {
     company: string
     date: string
-    itens: ItensOrderType[]
+    itens: ItemOrderType[]
   }
 }
 
-interface Item {
-  nomeProduct: string
+export interface Item {
+  aplicationId: string
+  idProduct: number
+  nameProduct: string
   quantity: number
   subtotal: number
+  observation?: string
+  imageUrl?: string
 }
 
 interface ProductData {
@@ -35,13 +40,11 @@ interface ProductData {
   itens: Item[]
 }
 
-export function OrderPendingContainer({
-  itemOrder,
-}: OrderPendingContainerProps) {
+export function OrderPending({ itemOrder }: OrderPendingProps) {
   const { date, company, itens } = itemOrder
 
   const { data: detailsItens, isFetching } = useQuery({
-    queryKey: ['current-prices', company, itens],
+    queryKey: ['current-prices', company],
     queryFn: () => getCurrentPrices({ company, itens }),
   })
 
@@ -57,9 +60,13 @@ export function OrderPendingContainer({
         acc.total += (product?.saleValue || 0) * item.quantity
 
         acc.itens.push({
-          nomeProduct: item.description,
+          aplicationId: item.aplicationId,
+          idProduct: item.id,
+          nameProduct: item.description,
           quantity: item.quantity,
           subtotal: (product?.saleValue || 0) * item.quantity,
+          observation: item.observation,
+          imageUrl: product?.imageUrl,
         })
 
         return acc
@@ -69,7 +76,6 @@ export function OrderPendingContainer({
         itens: [],
       },
     )
-    console.log(productData)
   }
 
   return (
@@ -101,7 +107,10 @@ export function OrderPendingContainer({
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
-            <UpdateOrderPending />
+            <UpdateOrderPending
+              productData={productData?.itens}
+              company={company}
+            />
           )}
 
           {isFetching ? (

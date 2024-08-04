@@ -79,6 +79,7 @@ interface ButtonActionProps {
 
 export const ButtonAction = styled.button<ButtonActionProps>`
   display: block;
+  position: relative;
   background-color: transparent;
   color: ${(props) => props.theme.colors.white};
   border-radius: 4px;

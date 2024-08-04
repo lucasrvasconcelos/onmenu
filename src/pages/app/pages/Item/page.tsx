@@ -1,10 +1,11 @@
-import { ArrowLeft, Heart, Minus, Plus, ShoppingBag } from 'lucide-react'
+import { ArrowLeft, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 
 import {
+  AddItemButton,
   CartApp,
-  CartAppAction,
   DetailsItem,
   FormContainer,
   ImageItem,
@@ -59,6 +60,7 @@ export function Item() {
         date: String(new Date()),
         itens: [
           {
+            aplicationId: uuidv4(),
             id: product?.data?.id,
             description: product?.data?.description,
             quantity: quantityInput,
@@ -103,12 +105,10 @@ export function Item() {
         <Link to={`/app/${company}/home`}>
           <ArrowLeft size={35} />
         </Link>
-        {isFetching ? (
-          <Skeleton width="35px" height="35px" />
-        ) : (
-          <button>
-            <Heart size={35} strokeWidth={2} />
-          </button>
+        {lengthOrderCompany && (
+          <Link to={`/app/${company}/orders`}>
+            <ShoppingCart size={35} />
+          </Link>
         )}
       </MenuOptionsItem>
       <DetailsItem>
@@ -198,14 +198,7 @@ export function Item() {
             {isFetching ? (
               <Skeleton width="155px" height="42px" />
             ) : (
-              <CartAppAction>
-                {lengthOrderCompany && (
-                  <Link to={`/app/${company}/orders`}>
-                    <ShoppingBag size={26} />
-                  </Link>
-                )}
-                <button type="submit">Adicionar</button>
-              </CartAppAction>
+              <AddItemButton type="submit">Adicionar</AddItemButton>
             )}
           </CartApp>
         </FormContainer>

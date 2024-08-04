@@ -1,5 +1,5 @@
 import * as Popover from '@radix-ui/react-popover'
-import { ButtonAction } from './order-pending-container.styled'
+import { ButtonAction } from './order-pending.styled'
 import { Trash2 } from 'lucide-react'
 import {
   DeleteOrderAction,

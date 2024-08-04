@@ -1,4 +1,4 @@
-import { ItensOrder } from '../context/app.context'
+import { ItemOrderType } from '../context/app.context'
 import { api } from '../lib/axios'
 
 export interface GetCurrentPrices {
@@ -18,13 +18,14 @@ export interface GetCurrentPrices {
       description: string
       saleValue: number
       companyId: number
+      imageUrl: string
     }[]
   }
 }
 
 interface GetCurrentPricesProps {
   company?: string
-  itens: ItensOrder[]
+  itens: ItemOrderType[]
 }
 
 export async function getCurrentPrices({
