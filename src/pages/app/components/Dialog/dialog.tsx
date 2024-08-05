@@ -1,6 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { Observation } from '../../pages/Item/page.styled'
-import { PencilLine } from 'lucide-react'
+import { NotepadText } from 'lucide-react'
 import {
   SaveObservation,
   DialogContent,
@@ -9,6 +8,7 @@ import {
   ObservationContainer,
   DialogButtonsContainer,
   CountObservation,
+  ObservationButton,
 } from './dialog.styled'
 import { GetProduct } from '../../../../api/get-product'
 
@@ -28,9 +28,9 @@ export function ObservationDialog({
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Observation type="button">
-          <PencilLine />
-        </Observation>
+        <ObservationButton>
+          <NotepadText size={30} strokeWidth={2} />
+        </ObservationButton>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay asChild>

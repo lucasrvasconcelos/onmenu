@@ -27,10 +27,10 @@ export const MenuOptionsItem = styled.div`
     cursor: pointer;
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
     background-color: ${(props) => props.theme.colors.white};
     color: ${(props) => props.theme.colors.black};
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 2.275);
+    position: relative;
 
     &:hover {
       transform: scale(1.06);
@@ -46,6 +46,22 @@ export const MenuOptionsItem = styled.div`
     /* background-color: ${(props) => props.theme.colors.danger}; */
     color: ${(props) => props.theme.colors.danger};
   }
+`
+
+export const ItemOrderLength = styled.span`
+  position: absolute;
+  top: -5px;
+  right: 8px;
+
+  color: ${(props) => props.theme.colors.white};
+  text-align: center;
+  padding: 0px 4px;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 40%;
+  line-height: normal;
+  background-color: ${(props) => props.theme.colors.primary};
+  transform: translateX(13px);
 `
 
 export const DetailsItem = styled.div`
@@ -149,7 +165,7 @@ export const ItensControl = styled.div`
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  gap: 18px;
+  gap: 22px;
   flex-direction: row;
 `
 export const Observation = styled.button`
@@ -158,14 +174,8 @@ export const Observation = styled.button`
   color: ${(props) => props.theme.colors.primary};
   border: 1px solid ${(props) => props.theme.colors.primary};
   font-size: 16px;
-  padding: 8px;
   border-radius: 4px;
   text-transform: capitalize;
-  font-weight: 600;
-  line-height: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   user-select: none;
   cursor: pointer;
 `
@@ -177,11 +187,10 @@ export const SetQuantity = styled.div`
   gap: 2px;
 
   & button {
-    background-color: ${(props) => props.theme.colors.primary};
-    color: ${(props) => props.theme.colors.white};
+    background-color: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.primary};
     border: none;
     font-size: 30px;
-    padding: 8px;
     border-radius: 4px;
 
     line-height: 0px;
@@ -197,9 +206,9 @@ export const SetQuantity = styled.div`
   }
 
   & span {
-    width: 80px;
-    font-size: 25px;
-    font-weight: bold;
+    width: 70px;
+    font-size: 20px;
+    font-weight: 600;
     text-align: center;
   }
 `

@@ -62,6 +62,20 @@ export const ObservationContainer = styled.div`
     border-radius: 4px;
   }
 `
+
+export const ObservationButton = styled.div`
+  background: transparent;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  & svg {
+    color: ${(props) => props.theme.colors.primary};
+  }
+`
 export const DialogButtonsContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -81,6 +95,7 @@ export const SaveObservation = styled.button`
   position: relative;
   margin-top: 8px;
   right: 0;
+
   &:hover {
     opacity: 0.9;
   }

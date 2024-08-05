@@ -10,6 +10,7 @@ import {
   FormContainer,
   ImageItem,
   ItemDetailsContainer,
+  ItemOrderLength,
   ItensControl,
   MenuOptionsItem,
   SetQuantity,
@@ -108,6 +109,7 @@ export function Item() {
         {lengthOrderCompany && (
           <Link to={`/app/${company}/orders`}>
             <ShoppingCart size={35} />
+            <ItemOrderLength>{lengthOrderCompany.itens.length}</ItemOrderLength>
           </Link>
         )}
       </MenuOptionsItem>
@@ -164,11 +166,11 @@ export function Item() {
                   onClick={() => handleDecreaseQuantity(-1)}
                   type="button"
                 >
-                  <Minus />
+                  <Minus strokeWidth={3} />
                 </button>
                 <span>{quantityInput}</span>
                 <button onClick={() => handleDecreaseQuantity(1)} type="button">
-                  <Plus />
+                  <Plus strokeWidth={3} />
                 </button>
               </SetQuantity>
               <ObservationDialog

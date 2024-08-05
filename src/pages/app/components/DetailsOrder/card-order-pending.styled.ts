@@ -6,7 +6,10 @@ export const CardOrderPendingContainer = styled.div`
   justify-content: space-between;
   align-items: stretch;
   width: 100%;
-  margin-bottom: 24px;
+
+  &:not(:last-child) {
+    margin-bottom: 14px;
+  }
 `
 export const CardOrderPendingImage = styled.img`
   width: 54px;
@@ -20,12 +23,14 @@ export const CardOrderPendingProduct = styled.div`
   flex-direction: column;
 `
 export const CardOrderPendingNameProduct = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 120px;
+  overflow: hidden;
   font-weight: bold;
   text-transform: lowercase;
   font-size: 14px;
+  padding-left: 4px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 export const CardOrderPendingActionContainer = styled.div`
   display: flex;
