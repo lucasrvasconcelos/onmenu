@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
 import {
-  ButtonAction,
   OrderButtonAction,
   OrderItemDetails,
   OrderItemPending,
@@ -12,10 +11,10 @@ import { getCurrentPrices } from '../../../../api/get-current-prices'
 import { Skeleton } from '../Skeleton/skeleton.styled'
 import { distanceDate } from '../../../../utils/distanceDate'
 import { formatCurrency } from '../../../../utils/currency'
-import { Check } from 'lucide-react'
 import { DeleteOrderPending } from './delete-order-pending'
 import { UpdateOrderPending } from './update-order-pending'
 import { ItemOrderType } from '../../../../context/app.context'
+import { ConfirmOrder } from './confirm-order'
 
 export interface OrderPendingProps {
   itemOrder: {
@@ -122,9 +121,7 @@ export function OrderPending({ itemOrder }: OrderPendingProps) {
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
-            <ButtonAction status="green">
-              <Check size={24} />
-            </ButtonAction>
+            <ConfirmOrder />
           )}
         </OrderButtonAction>
       </OrderItemPending>
