@@ -23,4 +23,37 @@ export const ConfirmOrderContent = styled.div`
   padding: 8px 10px;
 `
 
-export const ConfirmOrderContainer = styled.form``
+export const ConfirmOrderContainer = styled.div``
+
+export const SearchZipCode = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+
+  & input {
+    font-size: 16px;
+    padding: 2px 4px;
+    border: 1px solid ${(props) => props.theme.colors.border};
+    outline: none;
+    border-radius: 4px;
+  }
+
+  & button {
+    cursor: pointer;
+    background-color: transparent;
+    line-height: 0px;
+    border: 3px solid ${(props) => props.theme.colors.primary};
+    border-radius: 4px;
+    outline: none;
+    padding: 4px;
+    background-color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.white};
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+`
