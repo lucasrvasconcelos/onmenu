@@ -29,9 +29,9 @@ export function ConfirmOrder() {
                 <Dialog.Title>Preencha os dados para entrega</Dialog.Title>
                 <Dialog.Description>Seus dados</Dialog.Description>
                 <ConfirmOrderContainer>
-                  <div onSubmit={handleSubmit(createOrder)}>
+                  <form onSubmit={handleSubmit(createOrder)}>
                     <SearchCep />
-                  </div>
+                  </form>
                 </ConfirmOrderContainer>
               </ConfirmOrderContent>
             </Dialog.Content>
