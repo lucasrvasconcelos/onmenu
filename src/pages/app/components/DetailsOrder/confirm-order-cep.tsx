@@ -11,10 +11,14 @@ export function SearchCep() {
         type="text"
         placeholder="cep"
         value={zipcode}
-        onChange={(e) => setZipcode(e.target.value)}
+        onChange={(e) =>
+          setZipcode((state) => {
+            return e.target.value.length > 8 ? state : e.target.value
+          })
+        }
       />
-      <button type="submit">
-        <Search strokeWidth={3} size={15} />
+      <button type="submit" disabled={zipcode.length < 8}>
+        <Search strokeWidth={3} size={15} /> Buscar CEP
       </button>
     </SearchZipCode>
   )
