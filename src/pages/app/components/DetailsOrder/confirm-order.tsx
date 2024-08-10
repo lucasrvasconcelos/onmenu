@@ -1,19 +1,31 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import * as Switch from '@radix-ui/react-switch'
+
 import { Check } from 'lucide-react'
 import { ButtonAction } from './order-pending.styled'
 import { useForm } from 'react-hook-form'
 import {
-  ConfirmOrderContainer,
+  ChangeImageButton,
   ConfirmOrderContent,
+  ConfirmOrderDescription,
   ConfirmOrderDialogOverlay,
-  InputItem,
-  InputItemContainer,
-  InputsContainer,
+  ConfirmOrderForm,
+  DeleteImageButton,
+  InputNumber,
+  ProfileChangeImage,
+  ProfileContainer,
+  ProfileImage,
+  ProfileImageContainer,
+  ProfileInput,
+  ProfileInputWrapper,
+  ProfileWrapper,
 } from './confirm-order.styled'
-import { SearchCep } from './confirm-order-cep'
+import { useState } from 'react'
+import { Neighborhood } from './neighborhood'
 
 export function ConfirmOrder() {
   const { handleSubmit } = useForm()
+  const [checked, setChecked] = useState(true)
 
   function createOrder() {}
 
@@ -29,49 +41,85 @@ export function ConfirmOrder() {
           <ConfirmOrderDialogOverlay>
             <Dialog.Content asChild>
               <ConfirmOrderContent>
-                <Dialog.Title>Preencha os dados para entrega</Dialog.Title>
-                <Dialog.Description>Seus dados</Dialog.Description>
-                <ConfirmOrderContainer onSubmit={handleSubmit(createOrder)}>
-                  <SearchCep />
-                  <InputsContainer>
-                    <InputItemContainer>
-                      <InputItem>
-                        <label htmlFor="name">Nome</label>
-                        <input type="text" name="name" id="name" />
-                      </InputItem>
-                      <InputItem>
-                        <label htmlFor="telephone">Telefone</label>
-                        <input type="text" name="telephone" id="telephone" />
-                      </InputItem>
-                    </InputItemContainer>
-
-                    <InputItemContainer>
-                      <InputItem>
-                        <label htmlFor="road">Rua</label>
-                        <input type="text" name="road" id="road" />
-                      </InputItem>
-                      <InputItem>
-                        <label htmlFor="number">Numero</label>
-                        <input type="text" name="number" id="number" />
-                      </InputItem>
-                    </InputItemContainer>
-
-                    <InputItemContainer>
-                      <InputItem>
-                        <label htmlFor="neighborhood">Bairro</label>
-                        <input
-                          type="text"
-                          name="neighborhood"
-                          id="neighborhood"
+                <Dialog.Title asChild>
+                  <h4>Preencha os dados para entrega</h4>
+                </Dialog.Title>
+                <Dialog.Description asChild>
+                  <ConfirmOrderDescription>Seus dados</ConfirmOrderDescription>
+                </Dialog.Description>
+                <ConfirmOrderForm onSubmit={handleSubmit(createOrder)}>
+                  <ProfileContainer>
+                    <ProfileImageContainer>
+                      <ProfileImage>
+                        <span>Foto perfil</span>
+                        <img
+                          src="https://img.freepik.com/vetores-premium/icone-de-perfil-de-pessoas_24877-40756.jpg"
+                          alt=""
                         />
-                      </InputItem>
-                      <InputItem>
-                        <label htmlFor="city">Cidade</label>
-                        <input type="text" name="city" id="city" />
-                      </InputItem>
-                    </InputItemContainer>
-                  </InputsContainer>
-                </ConfirmOrderContainer>
+                      </ProfileImage>
+                      <ProfileChangeImage>
+                        <ChangeImageButton>Mudar foto</ChangeImageButton>
+                        <DeleteImageButton>Deletar foto</DeleteImageButton>
+                      </ProfileChangeImage>
+                    </ProfileImageContainer>
+
+                    <ProfileWrapper>
+                      <ProfileInputWrapper>
+                        <ProfileInput>
+                          <label htmlFor="name">Seu nome</label>
+                          <input type="text" name="name" id="name" />
+                        </ProfileInput>
+
+                        <ProfileInput>
+                          <label className="Label" htmlFor="delivery">
+                            {checked ? 'Entrega' : 'Retirada'}
+                          </label>
+                          <Switch.Root
+                            className="SwitchRoot"
+                            id="delivery"
+                            checked={checked}
+                            onCheckedChange={setChecked}
+                          >
+                            <Switch.Thumb className="SwitchThumb" />
+                          </Switch.Root>
+                        </ProfileInput>
+                      </ProfileInputWrapper>
+
+                      <ProfileInputWrapper>
+                        <ProfileInput>
+                          <label
+                            htmlFor="adress"
+                            className={checked ? 'required' : ''}
+                          >
+                            Seu endereço
+                          </label>
+                          <input
+                            type="text"
+                            name="adress"
+                            id="adress"
+                            required={checked}
+                          />
+                        </ProfileInput>
+                        <ProfileInput>
+                          <label
+                            htmlFor="number"
+                            className={checked ? 'required' : ''}
+                          >
+                            Número
+                          </label>
+                          <InputNumber
+                            type="text"
+                            name="number"
+                            id="number"
+                            required={checked}
+                          />
+                        </ProfileInput>
+                      </ProfileInputWrapper>
+
+                      <Neighborhood />
+                    </ProfileWrapper>
+                  </ProfileContainer>
+                </ConfirmOrderForm>
               </ConfirmOrderContent>
             </Dialog.Content>
           </ConfirmOrderDialogOverlay>
