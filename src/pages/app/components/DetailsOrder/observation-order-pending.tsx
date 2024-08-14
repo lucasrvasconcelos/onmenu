@@ -10,6 +10,7 @@ import {
 import { CardOrderPendingButton } from './card-order-pending.styled'
 import { Item } from './order-pending'
 
+import file from 'teste.css'
 interface ObservationOrderPendingProps {
   product: Item
   handleObservationOrder: (observation?: string) => void
