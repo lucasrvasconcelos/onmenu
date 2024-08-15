@@ -1,6 +1,5 @@
 import * as Select from '@radix-ui/react-select'
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
-import 'text.css'
 export function Neighborhood() {
   return (
     <Select.Root>
