@@ -10,7 +10,7 @@ export const ConfirmOrderDialogOverlay = styled.div`
   display: grid;
   place-items: center;
   overflow-y: auto;
-  z-index: 100;
+  z-index: 1;
 `
 
 export const ConfirmOrderContent = styled.div`
@@ -171,4 +171,26 @@ export const ProfileInputWrapper = styled.div`
 
 export const InputNumber = styled.input`
   width: 50px;
+`
+export const ConfirmOrderAction = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+  gap: 4px;
+
+  & button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  & button:nth-child(2) {
+    background-color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.white};
+  }
 `

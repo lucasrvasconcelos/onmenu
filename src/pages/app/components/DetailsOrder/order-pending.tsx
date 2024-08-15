@@ -121,7 +121,7 @@ export function OrderPending({ itemOrder }: OrderPendingProps) {
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
-            <ConfirmOrder />
+            <ConfirmOrder total={productData?.total || 0} />
           )}
         </OrderButtonAction>
       </OrderItemPending>

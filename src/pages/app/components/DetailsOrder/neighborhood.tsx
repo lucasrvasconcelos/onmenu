@@ -1,42 +1,75 @@
 import * as Select from '@radix-ui/react-select'
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
-import { NeighborhoodTrigger } from './neighborhood.styled'
-export function Neighborhood() {
+import { CheckIcon, ChevronDownIcon } from 'lucide-react'
+import {
+  NeighborhoodContent,
+  NeighborhoodTaxPrice,
+  NeighborhoodTrigger,
+  SelectItem,
+  SelectItemIndication,
+} from './neighborhood.styled'
+import { NeighborhoodType } from './neighborhood-tax'
+import { formatCurrency } from '../../../../utils/currency'
+
+interface NeighborhoodProps {
+  checked: boolean
+  neighborhoodOptions: NeighborhoodType[]
+  handleNeighborhoodActive: (neighborhood: string) => void
+}
+
+export function Neighborhood({
+  checked,
+  neighborhoodOptions,
+  handleNeighborhoodActive,
+}: NeighborhoodProps) {
   return (
-    <Select.Root>
-      <Select.Trigger className="SelectTrigger" aria-label="Food" asChild>
-        <NeighborhoodTrigger>
-          <Select.Value placeholder="Select a fruit…" />
-          <Select.Icon className="SelectIcon">
-            <ChevronDownIcon />
+    <Select.Root
+      onValueChange={(value) => handleNeighborhoodActive(value)}
+      required={checked}
+    >
+      <Select.Trigger aria-label="Food" asChild>
+        <NeighborhoodTrigger className={checked ? 'required' : ''}>
+          <Select.Value placeholder="Bairro" />
+          <Select.Icon>
+            <ChevronDownIcon size={14} />
           </Select.Icon>
         </NeighborhoodTrigger>
       </Select.Trigger>
       <Select.Portal>
-        <Select.Content>
-          <Select.ScrollUpButton />
-          <Select.Viewport>
-            <Select.Item value="01">
-              <Select.ItemText>teste 01</Select.ItemText>
-              <Select.ItemIndicator />
-            </Select.Item>
-            <Select.Item value="01">
-              <Select.ItemText>teste 01</Select.ItemText>
-              <Select.ItemIndicator />
-            </Select.Item>
-            <Select.Item value="01">
-              <Select.ItemText>teste 01</Select.ItemText>
-              <Select.ItemIndicator />
-            </Select.Item>
-            <Select.Item value="01">
-              <Select.ItemText>teste 01</Select.ItemText>
-              <Select.ItemIndicator />
-            </Select.Item>
-
-            <Select.Separator />
-          </Select.Viewport>
-          <Select.ScrollDownButton />
-          <Select.Arrow />
+        <Select.Content asChild position="popper">
+          <NeighborhoodContent>
+            <Select.ScrollUpButton />
+            <Select.Viewport>
+              {neighborhoodOptions.length > 0
+                ? neighborhoodOptions.map(
+                    ({ neighborhoodId, neighborhoodName, neighborhoodTax }) => {
+                      return (
+                        <Select.Item
+                          value={neighborhoodId.toString()}
+                          asChild
+                          key={neighborhoodId}
+                        >
+                          <SelectItem>
+                            <Select.ItemIndicator asChild>
+                              <SelectItemIndication>
+                                <CheckIcon size={14} />
+                              </SelectItemIndication>
+                            </Select.ItemIndicator>
+                            <Select.ItemText>
+                              {neighborhoodName}
+                            </Select.ItemText>
+                            <NeighborhoodTaxPrice>
+                              {formatCurrency(neighborhoodTax)}
+                            </NeighborhoodTaxPrice>
+                          </SelectItem>
+                        </Select.Item>
+                      )
+                    },
+                  )
+                : 'Nenhum bairro cadastrado'}
+            </Select.Viewport>
+            <Select.ScrollDownButton />
+            <Select.Arrow className="arrow" />
+          </NeighborhoodContent>
         </Select.Content>
       </Select.Portal>
     </Select.Root>

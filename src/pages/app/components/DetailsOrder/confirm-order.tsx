@@ -6,6 +6,7 @@ import { ButtonAction } from './order-pending.styled'
 import { useForm } from 'react-hook-form'
 import {
   ChangeImageButton,
+  ConfirmOrderAction,
   ConfirmOrderContent,
   ConfirmOrderDescription,
   ConfirmOrderDialogOverlay,
@@ -21,16 +22,19 @@ import {
   ProfileWrapper,
 } from './confirm-order.styled'
 import { useState } from 'react'
-import { Neighborhood } from './neighborhood'
+import { NeighborhoodTax } from './neighborhood-tax'
 
-export function ConfirmOrder() {
+interface ConfirmOrderProps {
+  total: number
+}
+export function ConfirmOrder({ total }: ConfirmOrderProps) {
   const { handleSubmit } = useForm()
   const [checked, setChecked] = useState(true)
 
   function createOrder() {}
 
   return (
-    <Dialog.Root open={false}>
+    <Dialog.Root>
       <Dialog.Trigger asChild>
         <ButtonAction status="green">
           <Check size={24} />
@@ -66,8 +70,8 @@ export function ConfirmOrder() {
                     <ProfileWrapper>
                       <ProfileInputWrapper>
                         <ProfileInput>
-                          <label htmlFor="name">Seu nome</label>
-                          <input type="text" name="name" id="name" />
+                          <label htmlFor="nameuser">Seu nome</label>
+                          <input type="text" id="nameuser" required={true} />
                         </ProfileInput>
 
                         <ProfileInput>
@@ -115,8 +119,13 @@ export function ConfirmOrder() {
                           />
                         </ProfileInput>
                       </ProfileInputWrapper>
-
-                      <Neighborhood />
+                      <NeighborhoodTax checked={checked} total={total} />
+                      <ConfirmOrderAction>
+                        <Dialog.Close asChild>
+                          <button type="button">Cancelar</button>
+                        </Dialog.Close>
+                        <button type="submit">Confirmar</button>
+                      </ConfirmOrderAction>
                     </ProfileWrapper>
                   </ProfileContainer>
                 </ConfirmOrderForm>

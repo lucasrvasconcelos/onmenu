@@ -45,5 +45,4 @@ export const UpdateOrderPendingLegth = styled.span`
   display: flex;
   top: -5px;
   transform: translateX(13px);
-  z-index: 8;
 `
