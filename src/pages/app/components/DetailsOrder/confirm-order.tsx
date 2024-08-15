@@ -30,7 +30,7 @@ export function ConfirmOrder() {
   function createOrder() {}
 
   return (
-    <Dialog.Root open={true}>
+    <Dialog.Root open={false}>
       <Dialog.Trigger asChild>
         <ButtonAction status="green">
           <Check size={24} />
