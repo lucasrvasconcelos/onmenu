@@ -16,6 +16,7 @@ export const HeaderContainer = styled.header`
 
 export const HeaderWrapper = styled.div`
   padding: 22px;
+  padding-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,5 +50,22 @@ export const MapPinIconApp = styled(MapPin)`
 
   & > circle {
     fill: ${(props) => props.theme.colors.background};
+  }
+`
+
+export const DescriptionCompany = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 8px 0;
+  padding-left: 28px;
+
+  & h1 {
+    font-size: 24px;
+  }
+
+  & p {
+    font-size: 14px;
   }
 `

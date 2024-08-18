@@ -13,10 +13,11 @@ import { CardOrderPending } from './card-order-pending'
 import { Item } from './order-pending'
 
 import * as ScrollArea from '@radix-ui/react-scroll-area'
+import { Company } from '../../../../context/styled'
 
 interface UpdateOrderPendingProps {
   productData?: Item[]
-  company: string
+  company: Company
 }
 export function UpdateOrderPending({
   productData,

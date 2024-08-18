@@ -27,18 +27,27 @@ import {
 } from '../../components/Skeleton/skeleton.styled'
 import { UseAppContext } from '../../../../context/use.app.context'
 import { toast } from 'sonner'
+import { getCompany } from '../../../../api/get-company'
 
 export function Item() {
-  const { company, proid } = useParams<{ company: string; proid: string }>()
+  const { proid } = useParams<{ proid: string }>()
   const [quantityInput, setQuantityInput] = useState(1)
   const [observationDescription, setObservationDescription] = useState('')
   const { addItemOrder, itensOrder } = UseAppContext()
 
+  const { companytag } = useParams<{ companytag: string }>()
+
+  const { data: company } = useQuery({
+    queryKey: ['profile-company', companytag],
+    queryFn: () => getCompany({ company: companytag }),
+    enabled: !!companytag,
+  })
+
   const { data: product, isFetching } = useQuery({
-    queryKey: ['product'],
+    queryKey: ['product', companytag],
     queryFn: () =>
       getProduct({
-        company,
+        company: companytag,
         proid,
       }),
   })
@@ -55,9 +64,9 @@ export function Item() {
   }
 
   function addItemCart() {
-    if (product?.data?.id) {
+    if (product?.data?.id && company?.data) {
       const newItem: ItensForCompany = {
-        company: company || '0000000000001',
+        company: company.data,
         date: String(new Date()),
         itens: [
           {
@@ -96,18 +105,18 @@ export function Item() {
     })
   }
 
-  const lengthOrderCompany = itensOrder.find((item) => {
-    return item.company === company
-  })
+  const lengthOrderCompany = itensOrder.find(
+    (item) => item.company.cnpj === company?.data?.cnpj,
+  )
 
   return (
     <ItemDetailsContainer>
       <MenuOptionsItem>
-        <Link to={`/app/${company}/home`}>
+        <Link to={`/app/${companytag}/home`}>
           <ArrowLeft size={35} />
         </Link>
         {lengthOrderCompany && (
-          <Link to={`/app/${company}/orders`}>
+          <Link to={`/app/${companytag}/orders`}>
             <ShoppingCart size={35} />
             <ItemOrderLength>{lengthOrderCompany.itens.length}</ItemOrderLength>
           </Link>

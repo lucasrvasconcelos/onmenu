@@ -1,6 +1,7 @@
 import { AlignLeft } from 'lucide-react'
 import { Button } from '../../../../components/button'
 import {
+  DescriptionCompany,
   HeaderContainer,
   HeaderWrapper,
   Location,
@@ -8,14 +9,19 @@ import {
 } from './header.styled'
 import { Profile } from './profile'
 import { SearchBar } from './searchBar'
-import { GetCompany } from '../../../../api/get-company'
 import { Skeleton } from '../Skeleton/skeleton.styled'
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { getCompany } from '../../../../api/get-company'
 
-interface HeaderProps {
-  company?: GetCompany
-  isFetching: boolean
-}
-export function Header({ company, isFetching }: HeaderProps) {
+export function Header() {
+  const { companytag } = useParams<{ companytag: string }>()
+  const { data: company, isFetching } = useQuery({
+    queryKey: ['profile-company', companytag],
+    queryFn: () => getCompany({ company: companytag }),
+    enabled: !!companytag,
+  })
+
   return (
     <HeaderContainer>
       <HeaderWrapper>
@@ -30,15 +36,27 @@ export function Header({ company, isFetching }: HeaderProps) {
           <span>
             {isFetching ? (
               <Skeleton height="20px" width="100px" />
-            ) : company?.error ? (
-              company?.error.message
+            ) : company ? (
+              company.data?.fantasyName
             ) : (
-              company?.data?.fantasyName
+              'Empresa não localizada'
             )}
           </span>
         </Location>
         <Profile />
       </HeaderWrapper>
+
+      {!company?.data?.primaryDescription &&
+      !company?.data?.secondaryDescription ? null : (
+        <DescriptionCompany>
+          {company?.data?.primaryDescription && (
+            <h1>{company?.data?.primaryDescription}</h1>
+          )}
+          {company?.data?.secondaryDescription && (
+            <p>{company?.data?.secondaryDescription}</p>
+          )}
+        </DescriptionCompany>
+      )}
 
       <SearchBar />
     </HeaderContainer>

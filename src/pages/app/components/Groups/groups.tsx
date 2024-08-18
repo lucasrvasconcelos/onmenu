@@ -21,16 +21,20 @@ interface HandleGroupSelectionProps {
   groupSearchDescription: string
 }
 
-export function Groups() {
-  const { activeGroup, handleActiveGroup } = UseAppContext()
-  const params = useParams()
+interface GroupsProps {
+  margintop?: string
+}
 
+export function Groups({ margintop }: GroupsProps) {
+  const { activeGroup, handleActiveGroup } = UseAppContext()
+
+  const { companytag } = useParams<{ companytag: string }>()
   const [searchParams, setSearchParams] = useSearchParams()
   const groupParam = searchParams.get('group')
 
   const { data: groups, isFetching } = useQuery({
-    queryKey: ['groups'],
-    queryFn: () => getGroups({ company: params.company, group: groupParam }),
+    queryKey: ['groups', companytag],
+    queryFn: () => getGroups({ company: companytag, group: groupParam }),
   })
 
   const activeGroupFiltered = groupParam
@@ -61,7 +65,7 @@ export function Groups() {
     groups?.data && groups?.data?.length < 4 ? groups.data?.length : 4
 
   return (
-    <CategoryContainer>
+    <CategoryContainer margintop={margintop}>
       {activeGroup && (
         <CleanFilters onClick={() => handleGroupSelection()}>
           Limpar filtros <X size={14} />

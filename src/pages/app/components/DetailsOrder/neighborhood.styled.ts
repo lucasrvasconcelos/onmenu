@@ -80,6 +80,13 @@ export const SelectItem = styled.button`
   font-weight: bold;
   cursor: pointer;
 
+  & span {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &[data-disabled] {
     color: ${(props) => props.theme.colors.border};
     pointer-events: none;
@@ -118,4 +125,19 @@ export const SelectItemIndication = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+`
+
+export const NotFoundNeighborhood = styled.span`
+  outline: none;
+  background-color: ${(props) => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.primary};
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: not-allowed;
+  border-radius: 4px;
+  padding: 0 4px;
 `

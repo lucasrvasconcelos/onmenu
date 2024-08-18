@@ -1,5 +1,8 @@
 import { createContext, useState } from 'react'
 import { Item } from '../pages/app/components/DetailsOrder/order-pending'
+import { Company } from './styled'
+import { useQuery } from '@tanstack/react-query'
+import { getCompany } from '../api/get-company'
 
 export interface ActiveGroup {
   id: number
@@ -17,34 +20,36 @@ export interface ItemOrderType {
 }
 
 export interface ItensForCompany {
-  company: string
+  company: Company
   date: string
   itens: ItemOrderType[]
 }
 
 export interface UpdateQuantityItemProps {
-  company: string
+  company: Company
   product: Item
   quantity: number
 }
 
 export interface UpdateObservationItemProps {
-  company: string
+  company: Company
   product: Item
   observation?: string
 }
 
 export interface DeleteItemOrder {
-  company: string
+  company: Company
   product: Item
 }
 
 interface AppContextInterface {
   activeGroup?: ActiveGroup
   itensOrder: ItensForCompany[]
+  company?: Company
+  setCompanytag: (companytag?: string) => void
   handleActiveGroup: (group?: ActiveGroup) => void
   addItemOrder: (item: ItensForCompany) => void
-  deleteOrder: (cnpj: string) => void
+  deleteOrder: (company: Company) => void
   updateQuantityItem: ({
     company,
     product,
@@ -65,6 +70,15 @@ interface AppProviderProps {
 }
 
 export function AppProvider({ children }: AppProviderProps) {
+  const [companytag, setCompanytag] = useState<string | undefined>()
+  const { data: companyData } = useQuery({
+    queryKey: ['profile-company', companytag],
+    queryFn: () => getCompany({ company: companytag }),
+    enabled: !!companytag,
+  })
+
+  const company = companyData?.data
+
   const [activeGroup, setActiveGroup] = useState<ActiveGroup | undefined>(
     undefined,
   )
@@ -77,9 +91,12 @@ export function AppProvider({ children }: AppProviderProps) {
     setActiveGroup(group)
   }
 
-  function deleteOrder(cnpj: string) {
+  function deleteOrder(company: Company) {
     setItensOrder((state) => {
-      const filteredItensOrder = state.filter((item) => item.company !== cnpj)
+      const filteredItensOrder = state.filter(
+        (item) => item.company.cnpj !== company.cnpj,
+      )
+
       localStorage.setItem('itensOrder', JSON.stringify(filteredItensOrder))
       return filteredItensOrder
     })
@@ -88,7 +105,7 @@ export function AppProvider({ children }: AppProviderProps) {
   function addItemOrder(newItemOrder: ItensForCompany) {
     setItensOrder((prevItensOrder) => {
       const companyIndex = prevItensOrder.findIndex(
-        (item) => item.company === newItemOrder.company,
+        (item) => item.company.cnpj === newItemOrder.company.cnpj,
       )
 
       let updatedItensOrder
@@ -119,7 +136,7 @@ export function AppProvider({ children }: AppProviderProps) {
   }: UpdateQuantityItemProps) {
     setItensOrder((state) => {
       const updateItem = state.map((item) => {
-        if (item.company === company) {
+        if (item.company.cnpj === company.cnpj) {
           return {
             ...item,
             itens: item.itens.map((item) => {
@@ -150,7 +167,7 @@ export function AppProvider({ children }: AppProviderProps) {
   }: UpdateObservationItemProps) {
     setItensOrder((state) => {
       const updateItem = state.map((item) => {
-        if (item.company === company) {
+        if (item.company.cnpj === company.cnpj) {
           return {
             ...item,
             itens: item.itens.map((item) => {
@@ -176,7 +193,7 @@ export function AppProvider({ children }: AppProviderProps) {
     let updateItem
     setItensOrder((state) => {
       updateItem = state.map((item) => {
-        if (item.company === company) {
+        if (item.company.cnpj === company.cnpj) {
           return {
             ...item,
             itens: item.itens.filter((item) => {
@@ -194,12 +211,12 @@ export function AppProvider({ children }: AppProviderProps) {
       })
 
       const lengthItemCompany = updateItem.find(
-        (item) => item.company === company,
+        (item) => item.company.cnpj === company.cnpj,
       )
 
       if (lengthItemCompany?.itens.length === 0) {
         const filteredItensOrder = state.filter(
-          (item) => item.company !== company,
+          (item) => item.company.cnpj !== company.cnpj,
         )
         localStorage.setItem('itensOrder', JSON.stringify(filteredItensOrder))
         return filteredItensOrder
@@ -215,6 +232,8 @@ export function AppProvider({ children }: AppProviderProps) {
       value={{
         activeGroup,
         itensOrder,
+        company,
+        setCompanytag,
         handleActiveGroup,
         deleteOrder,
         addItemOrder,

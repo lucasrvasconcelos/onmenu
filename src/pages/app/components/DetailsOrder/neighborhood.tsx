@@ -4,22 +4,26 @@ import {
   NeighborhoodContent,
   NeighborhoodTaxPrice,
   NeighborhoodTrigger,
+  NotFoundNeighborhood,
   SelectItem,
   SelectItemIndication,
 } from './neighborhood.styled'
-import { NeighborhoodType } from './neighborhood-tax'
 import { formatCurrency } from '../../../../utils/currency'
+import { Skeleton } from '../Skeleton/skeleton.styled'
+import { NeighborhoodType } from './confirm-order'
 
 interface NeighborhoodProps {
   checked: boolean
-  neighborhoodOptions: NeighborhoodType[]
+  neighborhoodData?: NeighborhoodType[]
   handleNeighborhoodActive: (neighborhood: string) => void
+  isFetching: boolean
 }
 
 export function Neighborhood({
   checked,
-  neighborhoodOptions,
+  neighborhoodData,
   handleNeighborhoodActive,
+  isFetching,
 }: NeighborhoodProps) {
   return (
     <Select.Root
@@ -28,7 +32,7 @@ export function Neighborhood({
     >
       <Select.Trigger aria-label="Food" asChild>
         <NeighborhoodTrigger className={checked ? 'required' : ''}>
-          <Select.Value placeholder="Bairro" />
+          <Select.Value placeholder="Qual bairro?" />
           <Select.Icon>
             <ChevronDownIcon size={14} />
           </Select.Icon>
@@ -39,33 +43,36 @@ export function Neighborhood({
           <NeighborhoodContent>
             <Select.ScrollUpButton />
             <Select.Viewport>
-              {neighborhoodOptions.length > 0
-                ? neighborhoodOptions.map(
-                    ({ neighborhoodId, neighborhoodName, neighborhoodTax }) => {
-                      return (
-                        <Select.Item
-                          value={neighborhoodId.toString()}
-                          asChild
-                          key={neighborhoodId}
-                        >
-                          <SelectItem>
-                            <Select.ItemIndicator asChild>
-                              <SelectItemIndication>
-                                <CheckIcon size={14} />
-                              </SelectItemIndication>
-                            </Select.ItemIndicator>
-                            <Select.ItemText>
-                              {neighborhoodName}
-                            </Select.ItemText>
-                            <NeighborhoodTaxPrice>
-                              {formatCurrency(neighborhoodTax)}
-                            </NeighborhoodTaxPrice>
-                          </SelectItem>
-                        </Select.Item>
-                      )
-                    },
+              {isFetching ? (
+                <Skeleton height="100px" width="120px" />
+              ) : neighborhoodData && neighborhoodData.length > 0 ? (
+                neighborhoodData.map(({ id, description, tax }) => {
+                  return (
+                    <Select.Item
+                      value={id.toString()}
+                      asChild
+                      key={id}
+                      title={description}
+                    >
+                      <SelectItem>
+                        <Select.ItemIndicator asChild>
+                          <SelectItemIndication>
+                            <CheckIcon size={14} />
+                          </SelectItemIndication>
+                        </Select.ItemIndicator>
+                        <Select.ItemText>{description}</Select.ItemText>
+                        <NeighborhoodTaxPrice>
+                          {formatCurrency(tax)}
+                        </NeighborhoodTaxPrice>
+                      </SelectItem>
+                    </Select.Item>
                   )
-                : 'Nenhum bairro cadastrado'}
+                })
+              ) : (
+                <NotFoundNeighborhood>
+                  Nenhum bairro cadastrado
+                </NotFoundNeighborhood>
+              )}
             </Select.Viewport>
             <Select.ScrollDownButton />
             <Select.Arrow className="arrow" />

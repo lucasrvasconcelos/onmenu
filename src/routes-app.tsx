@@ -14,15 +14,15 @@ export function Router() {
       </Route>
 
       <Route path="/app" element={<AppLayout header={true} footer={true} />}>
-        <Route path="/app/:company/home" element={<AppDelivery />} />
+        <Route path="/app/:companytag/home" element={<AppDelivery />} />
       </Route>
 
       <Route path="/app" element={<AppLayout />}>
-        <Route path="/app/:company/:proid/" element={<Item />} />
+        <Route path="/app/:companytag/:proid/" element={<Item />} />
       </Route>
 
       <Route path="/app" element={<AppLayout footer={true} />}>
-        <Route path="/app/:company/orders/" element={<Orders />} />
+        <Route path="/app/:companytag/orders/" element={<Orders />} />
       </Route>
     </Routes>
   )

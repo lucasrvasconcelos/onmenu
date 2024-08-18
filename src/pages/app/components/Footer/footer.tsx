@@ -1,16 +1,17 @@
 import { Ellipsis, Heart, LayoutDashboard, ReceiptText } from 'lucide-react'
 import { FooterContainer, LinkApp, NotifyOrderCount } from './footer.styled'
-import { useParams } from 'react-router-dom'
 import { UseAppContext } from '../../../../context/use.app.context'
+import { useParams } from 'react-router-dom'
 
 export function Footer() {
-  const { company } = useParams()
   const { itensOrder } = UseAppContext()
+
+  const { companytag } = useParams<{ companytag: string }>()
 
   return (
     <FooterContainer>
       <LinkApp
-        to={`/app/${company}/home`}
+        to={`/app/${companytag}/home`}
         className={({ isActive, isPending }) =>
           isPending ? 'pending' : isActive ? 'active' : ''
         }
@@ -20,7 +21,7 @@ export function Footer() {
       </LinkApp>
 
       <LinkApp
-        to={`/app/${company}/favorites`}
+        to={`/app/${companytag}/favorites`}
         className={({ isActive, isPending }) =>
           isPending ? 'pending' : isActive ? 'active' : ''
         }
@@ -30,7 +31,7 @@ export function Footer() {
       </LinkApp>
 
       <LinkApp
-        to={`/app/${company}/orders`}
+        to={`/app/${companytag}/orders`}
         className={({ isActive, isPending }) =>
           isPending ? 'pending' : isActive ? 'active' : ''
         }
@@ -43,7 +44,7 @@ export function Footer() {
       </LinkApp>
 
       <LinkApp
-        to={`/app/${company}/more`}
+        to={`/app/${companytag}/more`}
         className={({ isActive, isPending }) =>
           isPending ? 'pending' : isActive ? 'active' : ''
         }

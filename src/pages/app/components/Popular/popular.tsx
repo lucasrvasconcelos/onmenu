@@ -7,20 +7,21 @@ import {
 } from './popular.styled'
 import { formatCurrency } from '../../../../utils/currency'
 import { UseAppContext } from '../../../../context/use.app.context'
-import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getProductsPopulars } from '../../../../api/get-products-popular'
 import { Skeleton, SkeletonGroup } from '../Skeleton/skeleton.styled'
+import { useParams } from 'react-router-dom'
 
 export function Popular() {
-  const params = useParams()
   const { activeGroup } = UseAppContext()
+
+  const { companytag } = useParams<{ companytag: string }>()
 
   const { data: productsPopular, isFetching } = useQuery({
     queryKey: ['productpopular', activeGroup],
     queryFn: () =>
       getProductsPopulars({
-        company: params.company,
+        company: companytag,
         groupId: activeGroup?.id,
       }),
   })
@@ -34,7 +35,7 @@ export function Popular() {
             return (
               <PopularItem
                 key={product.id}
-                to={`/app/${params.company}/${product.id}`}
+                to={`/app/${companytag}/${product.id}`}
               >
                 <ImageBackground>
                   <img src={product.imageUrl} alt="" />

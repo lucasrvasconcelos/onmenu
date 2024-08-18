@@ -8,25 +8,26 @@ import {
 import { UseAppContext } from '../../../../context/use.app.context'
 import { toast } from 'sonner'
 import { ButtonOrderAction } from './button-order'
+import { Company } from '../../../../context/styled'
 
 interface DeleteOrderPendingProps {
-  company: string
+  company: Company
 }
 
 export function DeleteOrderPending({ company }: DeleteOrderPendingProps) {
   const { deleteOrder } = UseAppContext()
 
-  function handleDeleteOrderPending(cnpj?: string) {
-    if (!cnpj) {
+  function handleDeleteOrderPending(company?: Company) {
+    if (!company) {
       return
     }
 
     toast.error(`Pedido excluido com sucesso`)
-    deleteOrder(cnpj)
+    deleteOrder(company)
   }
 
   return (
-    company && (
+    company.cnpj && (
       <Popover.Root>
         <Popover.Trigger asChild>
           <ButtonAction status="red">

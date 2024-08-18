@@ -6,10 +6,9 @@ interface GetNeighborhood {
   }
   data?: {
     id: number
+    description: string
     companyId: number
-    neighborhoodId: number
-    neighborhoodName: string
-    neighborhoodTax: number
+    tax: number
   }[]
 }
 

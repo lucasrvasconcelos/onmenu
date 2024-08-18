@@ -13,7 +13,9 @@ export function Orders() {
         </div>
 
         {itensOrder?.map((itemOrder) => {
-          return <OrderPending key={itemOrder.company} itemOrder={itemOrder} />
+          return (
+            <OrderPending key={itemOrder.company.id} itemOrder={itemOrder} />
+          )
         })}
 
         {itensOrder?.length === 0 && (

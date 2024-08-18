@@ -1,10 +1,13 @@
 import { styled } from 'styled-components'
 
-export const CategoryContainer = styled.div`
+interface CategoryContainerProps {
+  margintop?: string
+}
+export const CategoryContainer = styled.div<CategoryContainerProps>`
   display: flex;
   justify-content: space-around;
   padding: 20px;
-  margin-top: 160px;
+  margin-top: ${(props) => props.margintop || '210px'};
   gap: 8px;
   width: 100%;
   position: relative;

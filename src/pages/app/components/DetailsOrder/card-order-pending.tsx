@@ -14,10 +14,11 @@ import { Item } from './order-pending'
 import { ObservationOrderPending } from './observation-order-pending'
 import { UseAppContext } from '../../../../context/use.app.context'
 import { toast } from 'sonner'
+import { Company } from '../../../../context/styled'
 
 interface CardOrderPendingProps {
   product: Item
-  company: string
+  company: Company
 }
 
 export function CardOrderPending({ product, company }: CardOrderPendingProps) {

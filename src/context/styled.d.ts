@@ -13,3 +13,11 @@ export interface Profile {
   avatarUrl: string
   seachbardescription: string
 }
+
+export interface Company {
+  id: number
+  cnpj: string
+  socialReason: string
+  fantasyName: string
+  tag: string | null
+}

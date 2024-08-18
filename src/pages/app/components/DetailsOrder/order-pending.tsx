@@ -15,10 +15,11 @@ import { DeleteOrderPending } from './delete-order-pending'
 import { UpdateOrderPending } from './update-order-pending'
 import { ItemOrderType } from '../../../../context/app.context'
 import { ConfirmOrder } from './confirm-order'
+import { Company } from '../../../../context/styled'
 
 export interface OrderPendingProps {
   itemOrder: {
-    company: string
+    company: Company
     date: string
     itens: ItemOrderType[]
   }
@@ -40,11 +41,11 @@ interface ProductData {
 }
 
 export function OrderPending({ itemOrder }: OrderPendingProps) {
-  const { date, company, itens } = itemOrder
+  const { date, itens, company } = itemOrder
 
   const { data: detailsItens, isFetching } = useQuery({
     queryKey: ['current-prices', company],
-    queryFn: () => getCurrentPrices({ company, itens }),
+    queryFn: () => getCurrentPrices({ company: company.cnpj, itens }),
   })
 
   let productData
@@ -103,6 +104,8 @@ export function OrderPending({ itemOrder }: OrderPendingProps) {
         </OrderItemDetails>
 
         <OrderButtonAction>
+          {/* Itens da ordem */}
+
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
@@ -112,16 +115,16 @@ export function OrderPending({ itemOrder }: OrderPendingProps) {
             />
           )}
 
+          {/* Deletar ordem */}
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
             <DeleteOrderPending company={company} />
           )}
-
           {isFetching ? (
             <Skeleton width="26px" height="26px" padding="0" margin="0" />
           ) : (
-            <ConfirmOrder total={productData?.total || 0} />
+            <ConfirmOrder company={company} productData={productData} />
           )}
         </OrderButtonAction>
       </OrderItemPending>

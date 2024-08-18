@@ -23,15 +23,59 @@ import {
 } from './confirm-order.styled'
 import { useState } from 'react'
 import { NeighborhoodTax } from './neighborhood-tax'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Item } from './order-pending'
+import { Company } from '../../../../context/styled'
 
 interface ConfirmOrderProps {
-  total: number
+  company: Company
+  productData?: {
+    itens: Item[]
+    total: number
+  }
 }
-export function ConfirmOrder({ total }: ConfirmOrderProps) {
-  const { handleSubmit } = useForm()
-  const [checked, setChecked] = useState(true)
 
-  function createOrder() {}
+const OrderSchema = z.object({
+  name: z.string().min(3),
+  address: z.string(),
+  number: z.string(),
+})
+
+type OrderType = z.infer<typeof OrderSchema>
+
+export interface NeighborhoodType {
+  id: number
+  description: string
+  companyId: number
+  tax: number
+}
+
+export function ConfirmOrder({ company, productData }: ConfirmOrderProps) {
+  const { handleSubmit, register } = useForm<OrderType>({
+    resolver: zodResolver(OrderSchema),
+  })
+
+  const [checked, setChecked] = useState(true)
+  const [neighborhood, setNeighborhood] = useState<NeighborhoodType>()
+
+  function createOrder({ name, address, number }: OrderType) {
+    const newOrder = {
+      name,
+      address,
+      number,
+      neighborhood,
+      delivery: checked,
+      company,
+      itens: productData?.itens,
+      totalAmount: productData?.total,
+      totalWithTax:
+        (productData?.total ? productData?.total : 0) +
+        (neighborhood?.tax ? neighborhood?.tax : 0),
+    }
+
+    console.log(newOrder)
+  }
 
   return (
     <Dialog.Root>
@@ -70,8 +114,13 @@ export function ConfirmOrder({ total }: ConfirmOrderProps) {
                     <ProfileWrapper>
                       <ProfileInputWrapper>
                         <ProfileInput>
-                          <label htmlFor="nameuser">Seu nome</label>
-                          <input type="text" id="nameuser" required={true} />
+                          <label htmlFor="name">Seu nome</label>
+                          <input
+                            type="text"
+                            id="name"
+                            required={true}
+                            {...register('name')}
+                          />
                         </ProfileInput>
 
                         <ProfileInput>
@@ -99,9 +148,9 @@ export function ConfirmOrder({ total }: ConfirmOrderProps) {
                           </label>
                           <input
                             type="text"
-                            name="adress"
                             id="adress"
                             required={checked}
+                            {...register('address')}
                           />
                         </ProfileInput>
                         <ProfileInput>
@@ -113,13 +162,18 @@ export function ConfirmOrder({ total }: ConfirmOrderProps) {
                           </label>
                           <InputNumber
                             type="text"
-                            name="number"
+                            {...register('number')}
                             id="number"
                             required={checked}
                           />
                         </ProfileInput>
                       </ProfileInputWrapper>
-                      <NeighborhoodTax checked={checked} total={total} />
+                      <NeighborhoodTax
+                        checked={checked}
+                        total={productData?.total || 0}
+                        setNeighborhood={setNeighborhood}
+                        neighborhood={neighborhood}
+                      />
                       <ConfirmOrderAction>
                         <Dialog.Close asChild>
                           <button type="button">Cancelar</button>
